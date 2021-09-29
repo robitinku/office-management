@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>@ViewBag.Title Office Management System</title>
+
+    <link href="~/Content/mycss.css" rel="stylesheet" />
+    <link href="~/Content/screen.css" rel="stylesheet" />
+    <script src="~/js/jquery/jquery-1.10.2.js"></script>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <script src="~/js/jquery/custom_jquery.js"></script>
+    
+    
+
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+    <style>
+
+        ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+ 
+    line-height: 1;
+}
+    </style>
+    
+</head>
+<body>
+    
+
+    <div id="page-top-outer">
+        <div id="page-top">
+
+            <!-- start logo -->
+            <div id="logo">
+                <h1 class="headtitle"> Office Management System </h1>
+            </div>
+        </div>
+    </div>
+    <div class="nav-outer-repeat">
+        <!--  start nav-outer -->
+        <div class="nav-outer">
+
+            <!-- start nav-right -->
+            <div id="nav-right">
+
+
+                <b>@Html.ActionLink("logout", "Logout", "Login", null, new { @style = "color:white;padding-top:10px;font-family: Tahoma;font-size: 13px;" })</b>
+                @*<a href="" id="logout" style="color:white;padding-top:2px;font-family: Tahoma;font-size: 13px;">logout</a>*@
+                <div class="clear">&nbsp;</div>
+
+                <!--  start account-content -->
+                <!--  end account-content -->
+
+            </div>
+            <!-- end nav-right -->
+            <!--  start nav -->
+            <div class="nav">
+                <div class="table">
+                    <div style="width:750px;float:left">
+                    <ul class="select" style="width:90px !important;">
+                        <li>
+                            <b> @Html.ActionLink("Employee", "index", "Emp")</b>
+                            <div class="select_sub">
+
+                            </div>
+                            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                        </li>
+                    </ul>
+
+
+
+
+
+
+
+                    <ul class="select" style="width:90px !important;">
+                        <li>
+                            <a href=""><b>Component</b><!--[if IE 7]><!--></a><!--<![endif]-->
+                            <!--[if lte IE 6]><table><tr><td><![endif]-->
+                            <div class="select_sub" style="min-width:670px;" >
+                                <ul class="sub">
+                                    <li style="padding-left:10px;">@Html.ActionLink("Cell", "Index", "CellInfo")</li>
+                                    <li style="padding-left:10px;">@Html.ActionLink("Designation", "Index", "Designation")</li>
+                                    <li style="padding-left:10px;">@Html.ActionLink("Present Posting", "Index", "Department")</li>
+                                    <li style="padding-left:10px;">@Html.ActionLink("Job Category", "Index", "JobCategory")</li>
+                                    <li style="padding-left:10px;">@Html.ActionLink("Work Schedule", "Index", "Work")</li>
+                                    <li style="padding-left:10px;">@Html.ActionLink("Holiday Calender", "Index", "Calender")</li>
+                                </ul>
+                            </div>
+                            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                        </li>
+                    </ul>
+
+                        
+                    @if (Session["Category"] != null && Session["Category"].ToString() != "Member" && Session["Category"].ToString() != "Verifier" && Session["Category"].ToString() != "Forwarder")
+                                {
+                        <ul class="select" style="width:60px !important;">
+                            <li>
+                                <b>@Html.ActionLink("Order", "Index", "OrderDetail")</b>
+
+                           
+                                
+                            </li>
+                        </ul>
+                    }
+
+@if (Session["Category"] != null &&( Session["Category"].ToString() == "Verifier" || Session["Category"].ToString() == "Forwarder"|| Session["Category"].ToString() == "Admin"))
+{
+                        <ul class="select" style="width:130px !important;">
+                            <li>
+                                <b>@Html.ActionLink("Order Approval", "Index", "OrderApproval")</b>
+                                
+
+                            </li>
+                        </ul>
+}
+                        @if (Session["Category"] != null && Session["Category"].ToString() == "Admin")
+                        { <ul class="select" style="width:150px !important;">
+                            <li>
+                                <b>@Html.ActionLink("Data Management", "Index", "DbManagement")</b>
+                                <!--[if lte IE 6]><table><tr><td><![endif]-->
+                                <div class="select_sub">
+
+                                </div>
+                                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                            </li>
+                        </ul>
+                        }
+                        <ul class="select" style="width:80px !important;">
+                            <li>
+                                <a href=""><b>Reports</b><!--[if IE 7]><!--></a><!--<![endif]-->
+                                <!--[if lte IE 6]><table><tr><td><![endif]-->
+                                <div class="select_sub show" style="min-width:720px;">
+                                    <ul class="sub">
+                                        <li>@Html.ActionLink("Employee Wise Work", "Index", "EmpStatus")</li>
+                                        <li>@Html.ActionLink("Cell wise Work", "Empcell", "EmpStatus")</li>
+                                        <li>@Html.ActionLink("Search Order", "search", "OrderDetail")</li>
+                                        <li>@Html.ActionLink("Contact List", "contact_list", "Emp")</li>
+                                        <li>@Html.ActionLink("Cell", "AllCell", "Report")</li>
+                                        <li>@Html.ActionLink("Cell wise Employee", "CellWEmp", "Report")</li>
+                                        <li>@Html.ActionLink("Work Calender", "WorkCalender", "Report")</li>
+                                    </ul>
+                                </div>
+                                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                            </li>
+                        </ul>
+                    
+                        @*<ul class="select" style="width:130px !important;">
+                            <li>
+                                <b>@Html.ActionLink("Employee Status", "Index", "EmpStatus")</b>
+                                <!--[if lte IE 6]><table><tr><td><![endif]-->
+                                <div class="select_sub">
+
+                                </div>
+                                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                            </li>
+                        </ul>*@
+                        
+
+                            <ul class="select" style="width:50px !important;">
+                                <li>
+                                    <b><a href=""><b>User Info</b><!--[if IE 7]><!--></a><!--<![endif]--></b>
+
+                                    <div class="select_sub" style="min-width:275px;">
+                                        <ul class="sub">
+                                            @if (Session["Category"] != null && Session["Category"].ToString() != "Member" && Session["Category"].ToString() != "Verifier" && Session["Category"].ToString() != "Forwarder")
+                                            {
+                                            <li style="padding-left:10px;">@Html.ActionLink("User Panel", "Index", "userpanel")</li>
+                                            }
+                                            @if (Session["Category"] != null && Session["Category"].ToString() == "Admin")
+                                            {
+                                                <li style="padding-left:10px;">@Html.ActionLink("Log", "logs", "userpanel")</li>
+                                            }
+                                            <li style="padding-left:10px;">@Html.ActionLink("Change Password", "PasswordChange", "userpanel")</li>
+
+                                        </ul>
+                                    </div>
+                                    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                                </li>
+                            </ul>
+                        
+                    
+
+
+                    <ul class="select">
+                        <li>
+                            <a href=""><b> </b><!--[if IE 7]><!--></a><!--<![endif]-->
+                            <!--[if lte IE 6]><table><tr><td><![endif]-->
+                            <div class="select_sub">
+
+                            </div>
+                            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                        </li>
+                    </ul>
+                </div>
+                    <div style="width:150px;float:left;">
+                        <ul class="select" style="color:white; margin-top:10px;font-size:10px;">
+                            <li style="float:none !important">
+                                @Session["Emp_Name"].ToString()
+
+                            </li>
+                            <li style="float:none !important;padding-top:12px;">
+                                @Session["Designation"].ToString()
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            
+            
+
+        </div>
+        <div class="clear"></div>
+        <!--  start nav-outer -->
+    </div>
+
+
+    <div class="clear"></div>
+
+    <!-- start content-outer -->
+    <div id="content-outer">
+        <!-- start content -->
+
+        @RenderBody()
+        <div class="clear">&nbsp;</div>
+
+
+    </div>
+    <div id="footer">
+        <div id="footer-left">
+            <footer>
+
+                <p>&copy; @DateTime.Now.Year -All Rights Reserved  •  Design & Developed by ICTD(Operation)-CUSTOMIZATION AND DEVELOPMENT TEAM. </p>
+            </footer>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Office_ManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="db_benifit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_id" Type="Int64" Nullable="false" />
+    <Property Name="amount" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="type" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_benifit_db_user" FromRole="db_benifit" ToRole="db_User" />
+  </EntityType>
+  <EntityType Name="db_calendar">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="HoliDay_Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Discription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_calendar_db_User" FromRole="db_calendar" ToRole="db_User" />
+  </EntityType>
+  <EntityType Name="db_Cell">
+    <Key>
+      <PropertyRef Name="Cell_Id" />
+    </Key>
+    <Property Name="Cell_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Dep_id" Type="Int64" Nullable="false" />
+    <Property Name="Short_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="db_Emp_Cell" Relationship="Self.FK_db_Emp_Cell_db_Cell" FromRole="db_Cell" ToRole="db_Emp_Cell" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_Employee_db_Cell" FromRole="db_Cell" ToRole="db_Employee" />
+    <NavigationProperty Name="db_Order_Detail" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_Cell" FromRole="db_Cell" ToRole="db_Order_Detail" />
+  </EntityType>
+  <EntityType Name="db_Department">
+    <Key>
+      <PropertyRef Name="Dep_id" />
+    </Key>
+    <Property Name="Dep_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Priority" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_Employee_db_Department" FromRole="db_Department" ToRole="db_Employee" />
+    <NavigationProperty Name="db_Employee1" Relationship="Self.FK_db_Employee_db_Department1" FromRole="db_Department" ToRole="db_Employee" />
+  </EntityType>
+  <EntityType Name="db_Designation">
+    <Key>
+      <PropertyRef Name="Designation_Id" />
+    </Key>
+    <Property Name="Designation_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="Bn_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Serial" Type="Int32" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_Designation_db_User" FromRole="db_Designation" ToRole="db_User" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_Employee_db_Designation" FromRole="db_Designation" ToRole="db_Employee" />
+  </EntityType>
+  <EntityType Name="db_Emp_Cell">
+    <Key>
+      <PropertyRef Name="Emp_Cell" />
+    </Key>
+    <Property Name="Emp_Cell" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cell_Id" Type="Int64" Nullable="false" />
+    <Property Name="Emp_Id" Type="Int64" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="db_Cell" Relationship="Self.FK_db_Emp_Cell_db_Cell" FromRole="db_Emp_Cell" ToRole="db_Cell" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_Emp_Cell_db_Employee" FromRole="db_Emp_Cell" ToRole="db_Employee" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_Emp_Cell_db_User" FromRole="db_Emp_Cell" ToRole="db_User" />
+  </EntityType>
+  <EntityType Name="db_Employee">
+    <Key>
+      <PropertyRef Name="Emp_Id" />
+    </Key>
+    <Property Name="Emp_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Emp_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Bank_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Present_Posting" Type="Int64" Nullable="false" />
+    <Property Name="Department" Type="Int64" Nullable="false" />
+    <Property Name="Present_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Category_Id" Type="Int64" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Work_Id" Type="Int64" Nullable="false" />
+    <Property Name="Cell_Id" Type="Int64" Nullable="false" />
+    <Property Name="Designation_Id" Type="Int64" Nullable="false" />
+    <Property Name="Bn_Emp_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="promotion_Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="db_Cell" Relationship="Self.FK_db_Employee_db_Cell" FromRole="db_Employee" ToRole="db_Cell" />
+    <NavigationProperty Name="db_Department" Relationship="Self.FK_db_Employee_db_Department" FromRole="db_Employee" ToRole="db_Department" />
+    <NavigationProperty Name="db_Department1" Relationship="Self.FK_db_Employee_db_Department1" FromRole="db_Employee" ToRole="db_Department" />
+    <NavigationProperty Name="db_Designation" Relationship="Self.FK_db_Employee_db_Designation" FromRole="db_Employee" ToRole="db_Designation" />
+    <NavigationProperty Name="db_Emp_Cell" Relationship="Self.FK_db_Emp_Cell_db_Employee" FromRole="db_Employee" ToRole="db_Emp_Cell" />
+    <NavigationProperty Name="db_Job_Cate" Relationship="Self.FK_db_Employee_db_Job_Cate" FromRole="db_Employee" ToRole="db_Job_Cate" />
+    <NavigationProperty Name="db_Work_Category" Relationship="Self.FK_db_Employee_db_Work_Category" FromRole="db_Employee" ToRole="db_Work_Category" />
+    <NavigationProperty Name="db_image" Relationship="Self.FK_db_image_db_Employee" FromRole="db_Employee" ToRole="db_image" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_User_db_Employee" FromRole="db_Employee" ToRole="db_User" />
+    <NavigationProperty Name="db_Order_Detail" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_Employee" FromRole="db_Employee" ToRole="db_Order_Detail" />
+  </EntityType>
+  <EntityType Name="db_image">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Emp_Id" Type="Int64" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_image_db_Employee" FromRole="db_image" ToRole="db_Employee" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_image_db_User" FromRole="db_image" ToRole="db_User" />
+  </EntityType>
+  <EntityType Name="db_Job_Cate">
+    <Key>
+      <PropertyRef Name="Category_Id" />
+    </Key>
+    <Property Name="Category_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_Employee_db_Job_Cate" FromRole="db_Job_Cate" ToRole="db_Employee" />
+  </EntityType>
+  <EntityType Name="db_Log">
+    <Key>
+      <PropertyRef Name="Log_Id" />
+    </Key>
+    <Property Name="Log_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="User_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_Log_db_User" FromRole="db_Log" ToRole="db_User" />
+  </EntityType>
+  <EntityType Name="db_Order">
+    <Key>
+      <PropertyRef Name="Order_Id" />
+    </Key>
+    <Property Name="Order_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Order_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Refno" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="User_Id" Type="Int64" />
+    <Property Name="EnDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="db_User" Relationship="Self.FK_db_Order_db_User" FromRole="db_Order" ToRole="db_User" />
+    <NavigationProperty Name="db_Order_Detail" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_Order" FromRole="db_Order" ToRole="db_Order_Detail" />
+  </EntityType>
+  <EntityType Name="db_User">
+    <Key>
+      <PropertyRef Name="User_Id" />
+    </Key>
+    <Property Name="User_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Emp_Id" Type="Int64" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="db_benifit" Relationship="Self.FK_db_benifit_db_user" FromRole="db_User" ToRole="db_benifit" />
+    <NavigationProperty Name="db_calendar" Relationship="Self.FK_db_calendar_db_User" FromRole="db_User" ToRole="db_calendar" />
+    <NavigationProperty Name="db_Designation" Relationship="Self.FK_db_Designation_db_User" FromRole="db_User" ToRole="db_Designation" />
+    <NavigationProperty Name="db_Emp_Cell" Relationship="Self.FK_db_Emp_Cell_db_User" FromRole="db_User" ToRole="db_Emp_Cell" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_User_db_Employee" FromRole="db_User" ToRole="db_Employee" />
+    <NavigationProperty Name="db_image" Relationship="Self.FK_db_image_db_User" FromRole="db_User" ToRole="db_image" />
+    <NavigationProperty Name="db_Log" Relationship="Self.FK_db_Log_db_User" FromRole="db_User" ToRole="db_Log" />
+    <NavigationProperty Name="db_Order" Relationship="Self.FK_db_Order_db_User" FromRole="db_User" ToRole="db_Order" />
+    <NavigationProperty Name="db_Order_Detail" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_User" FromRole="db_User" ToRole="db_Order_Detail" />
+  </EntityType>
+  <EntityType Name="db_Work_Category">
+    <Key>
+      <PropertyRef Name="Work_Id" />
+    </Key>
+    <Property Name="Work_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="Start_Time" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="End_Time" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Entertainment" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Travel" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="work_type" Type="Int32" />
+    <Property Name="Cell_ID" Type="Int64" />
+    <NavigationProperty Name="db_Employee" Relationship="Self.FK_db_Employee_db_Work_Category" FromRole="db_Work_Category" ToRole="db_Employee" />
+    <NavigationProperty Name="db_work_text" Relationship="Self.FK_db_work_text_db_Work_Category" FromRole="db_Work_Category" ToRole="db_work_text" />
+    <NavigationProperty Name="db_Order_Detail" Relationship="Office_ManagementModel.FK_db_Order_Detail_dv_Work_Category" FromRole="db_Work_Category" ToRole="db_Order_Detail" />
+  </EntityType>
+  <EntityType Name="db_work_text">
+    <Key>
+      <PropertyRef Name="WorkTextId" />
+    </Key>
+    <Property Name="WorkTextId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Work_Id" Type="Int64" Nullable="false" />
+    <Property Name="Subject" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DetailHeader" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DetailFottor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="db_Work_Category" Relationship="Self.FK_db_work_text_db_Work_Category" FromRole="db_work_text" ToRole="db_Work_Category" />
+  </EntityType>
+  <EntityType Name="TMDATA">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SL_NO" Type="Int32" />
+    <Property Name="TM_FOR" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CURRENCY_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="COUNTRY_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PURPOSE_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BENEFICIARY_DETAILS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="APPLICANT_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="APPLICANT_ADDRESS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="EFFECTED_REMITTANCE" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="FX_MANUAL_PARA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BB_APPROVAL_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="APPROVAL_DATE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CATEGORY_CODE" Type="Int32" />
+    <Property Name="TM_DATE" Type="DateTime" Precision="3" />
+    <Property Name="COMPANY_TYPE_ID" Type="Int32" />
+    <Property Name="MOP_CASH" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MOP_TC" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MOP_CARD" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MOP_FDD" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MOP_MT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MOP_OTHER" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SFC_BANK" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SFC_FC_AC" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SFC_ERQ" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SFC_OTHER" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AMOUNT_IN_BDT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CONTACT_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BANK_REFERENCE" Type="Binary" MaxLength="150" FixedLength="false" />
+    <Property Name="PASSPORT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PASSPORT_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CITIZEN_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ADDRESS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PASSPORT_DATE" Type="DateTime" Precision="3" />
+    <Property Name="PASSPORT_ISSUE_PLACE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="PASSPORT_RENEWAL_DATE" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK_db_benifit_db_user">
+    <End Role="db_User" Type="Self.db_User" Multiplicity="1" />
+    <End Role="db_benifit" Type="Self.db_benifit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_benifit">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_calendar_db_User">
+    <End Role="db_User" Type="Self.db_User" Multiplicity="1" />
+    <End Role="db_calendar" Type="Self.db_calendar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_calendar">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Emp_Cell_db_Cell">
+    <End Role="db_Cell" Type="Self.db_Cell" Multiplicity="1" />
+    <End Role="db_Emp_Cell" Type="Self.db_Emp_Cell" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Cell">
+        <PropertyRef Name="Cell_Id" />
+      </Principal>
+      <Dependent Role="db_Emp_Cell">
+        <PropertyRef Name="Cell_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Employee_db_Cell">
+    <End Role="db_Cell" Type="Self.db_Cell" Multiplicity="1" />
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Cell">
+        <PropertyRef Name="Cell_Id" />
+      </Principal>
+      <Dependent Role="db_Employee">
+        <PropertyRef Name="Cell_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Employee_db_Department">
+    <End Role="db_Department" Type="Self.db_Department" Multiplicity="1" />
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Department">
+        <PropertyRef Name="Dep_id" />
+      </Principal>
+      <Dependent Role="db_Employee">
+        <PropertyRef Name="Department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Employee_db_Department1">
+    <End Role="db_Department" Type="Self.db_Department" Multiplicity="1" />
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Department">
+        <PropertyRef Name="Dep_id" />
+      </Principal>
+      <Dependent Role="db_Employee">
+        <PropertyRef Name="Present_Posting" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Designation_db_User">
+    <End Role="db_User" Type="Self.db_User" Multiplicity="1" />
+    <End Role="db_Designation" Type="Self.db_Designation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_Designation">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Employee_db_Designation">
+    <End Role="db_Designation" Type="Self.db_Designation" Multiplicity="1" />
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Designation">
+        <PropertyRef Name="Designation_Id" />
+      </Principal>
+      <Dependent Role="db_Employee">
+        <PropertyRef Name="Designation_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Emp_Cell_db_Employee">
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="1" />
+    <End Role="db_Emp_Cell" Type="Self.db_Emp_Cell" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Employee">
+        <PropertyRef Name="Emp_Id" />
+      </Principal>
+      <Dependent Role="db_Emp_Cell">
+        <PropertyRef Name="Emp_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Emp_Cell_db_User">
+    <End Role="db_User" Type="Self.db_User" Multiplicity="1" />
+    <End Role="db_Emp_Cell" Type="Self.db_Emp_Cell" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_Emp_Cell">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Employee_db_Job_Cate">
+    <End Role="db_Job_Cate" Type="Self.db_Job_Cate" Multiplicity="1" />
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Job_Cate">
+        <PropertyRef Name="Category_Id" />
+      </Principal>
+      <Dependent Role="db_Employee">
+        <PropertyRef Name="Category_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Employee_db_Work_Category">
+    <End Role="db_Work_Category" Type="Self.db_Work_Category" Multiplicity="1" />
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Work_Category">
+        <PropertyRef Name="Work_Id" />
+      </Principal>
+      <Dependent Role="db_Employee">
+        <PropertyRef Name="Work_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_image_db_Employee">
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="1" />
+    <End Role="db_image" Type="Self.db_image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Employee">
+        <PropertyRef Name="Emp_Id" />
+      </Principal>
+      <Dependent Role="db_image">
+        <PropertyRef Name="Emp_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_User_db_Employee">
+    <End Role="db_Employee" Type="Self.db_Employee" Multiplicity="0..1" />
+    <End Role="db_User" Type="Self.db_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Employee">
+        <PropertyRef Name="Emp_Id" />
+      </Principal>
+      <Dependent Role="db_User">
+        <PropertyRef Name="Emp_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_image_db_User">
+    <End Role="db_User" Type="Self.db_User" Multiplicity="1" />
+    <End Role="db_image" Type="Self.db_image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_image">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Log_db_User">
+    <End Role="db_User" Type="Self.db_User" Multiplicity="1" />
+    <End Role="db_Log" Type="Self.db_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_Log">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Order_db_User">
+    <End Role="db_User" Type="Self.db_User" Multiplicity="0..1" />
+    <End Role="db_Order" Type="Self.db_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_Order">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_work_text_db_Work_Category">
+    <End Role="db_Work_Category" Type="Self.db_Work_Category" Multiplicity="1" />
+    <End Role="db_work_text" Type="Self.db_work_text" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Work_Category">
+        <PropertyRef Name="Work_Id" />
+      </Principal>
+      <Dependent Role="db_work_text">
+        <PropertyRef Name="Work_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Office_ManagementEntities3" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="db_benifit" EntityType="Self.db_benifit" />
+    <EntitySet Name="db_calendar" EntityType="Self.db_calendar" />
+    <EntitySet Name="db_Cell" EntityType="Self.db_Cell" />
+    <EntitySet Name="db_Department" EntityType="Self.db_Department" />
+    <EntitySet Name="db_Designation" EntityType="Self.db_Designation" />
+    <EntitySet Name="db_Emp_Cell" EntityType="Self.db_Emp_Cell" />
+    <EntitySet Name="db_Employee" EntityType="Self.db_Employee" />
+    <EntitySet Name="db_image" EntityType="Self.db_image" />
+    <EntitySet Name="db_Job_Cate" EntityType="Self.db_Job_Cate" />
+    <EntitySet Name="db_Log" EntityType="Self.db_Log" />
+    <EntitySet Name="db_Order" EntityType="Self.db_Order" />
+    <EntitySet Name="db_User" EntityType="Self.db_User" />
+    <EntitySet Name="db_Work_Category" EntityType="Self.db_Work_Category" />
+    <EntitySet Name="db_work_text" EntityType="Self.db_work_text" />
+    <EntitySet Name="TMDATAs" EntityType="Self.TMDATA" />
+    <AssociationSet Name="FK_db_benifit_db_user" Association="Self.FK_db_benifit_db_user">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_benifit" EntitySet="db_benifit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_calendar_db_User" Association="Self.FK_db_calendar_db_User">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_calendar" EntitySet="db_calendar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Emp_Cell_db_Cell" Association="Self.FK_db_Emp_Cell_db_Cell">
+      <End Role="db_Cell" EntitySet="db_Cell" />
+      <End Role="db_Emp_Cell" EntitySet="db_Emp_Cell" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Employee_db_Cell" Association="Self.FK_db_Employee_db_Cell">
+      <End Role="db_Cell" EntitySet="db_Cell" />
+      <End Role="db_Employee" EntitySet="db_Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Employee_db_Department" Association="Self.FK_db_Employee_db_Department">
+      <End Role="db_Department" EntitySet="db_Department" />
+      <End Role="db_Employee" EntitySet="db_Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Employee_db_Department1" Association="Self.FK_db_Employee_db_Department1">
+      <End Role="db_Department" EntitySet="db_Department" />
+      <End Role="db_Employee" EntitySet="db_Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Designation_db_User" Association="Self.FK_db_Designation_db_User">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_Designation" EntitySet="db_Designation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Employee_db_Designation" Association="Self.FK_db_Employee_db_Designation">
+      <End Role="db_Designation" EntitySet="db_Designation" />
+      <End Role="db_Employee" EntitySet="db_Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Emp_Cell_db_Employee" Association="Self.FK_db_Emp_Cell_db_Employee">
+      <End Role="db_Employee" EntitySet="db_Employee" />
+      <End Role="db_Emp_Cell" EntitySet="db_Emp_Cell" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Emp_Cell_db_User" Association="Self.FK_db_Emp_Cell_db_User">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_Emp_Cell" EntitySet="db_Emp_Cell" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Employee_db_Job_Cate" Association="Self.FK_db_Employee_db_Job_Cate">
+      <End Role="db_Job_Cate" EntitySet="db_Job_Cate" />
+      <End Role="db_Employee" EntitySet="db_Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Employee_db_Work_Category" Association="Self.FK_db_Employee_db_Work_Category">
+      <End Role="db_Work_Category" EntitySet="db_Work_Category" />
+      <End Role="db_Employee" EntitySet="db_Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_image_db_Employee" Association="Self.FK_db_image_db_Employee">
+      <End Role="db_Employee" EntitySet="db_Employee" />
+      <End Role="db_image" EntitySet="db_image" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_User_db_Employee" Association="Self.FK_db_User_db_Employee">
+      <End Role="db_Employee" EntitySet="db_Employee" />
+      <End Role="db_User" EntitySet="db_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_image_db_User" Association="Self.FK_db_image_db_User">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_image" EntitySet="db_image" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Log_db_User" Association="Self.FK_db_Log_db_User">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_Log" EntitySet="db_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Order_db_User" Association="Self.FK_db_Order_db_User">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_Order" EntitySet="db_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_work_text_db_Work_Category" Association="Self.FK_db_work_text_db_Work_Category">
+      <End Role="db_Work_Category" EntitySet="db_Work_Category" />
+      <End Role="db_work_text" EntitySet="db_work_text" />
+    </AssociationSet>
+    <EntitySet Name="db_Order_Detail" EntityType="Office_ManagementModel.db_Order_Detail" />
+    <AssociationSet Name="FK_db_Order_Detail_db_Cell" Association="Office_ManagementModel.FK_db_Order_Detail_db_Cell">
+      <End Role="db_Cell" EntitySet="db_Cell" />
+      <End Role="db_Order_Detail" EntitySet="db_Order_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Order_Detail_db_Employee" Association="Office_ManagementModel.FK_db_Order_Detail_db_Employee">
+      <End Role="db_Employee" EntitySet="db_Employee" />
+      <End Role="db_Order_Detail" EntitySet="db_Order_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Order_Detail_db_Order" Association="Office_ManagementModel.FK_db_Order_Detail_db_Order">
+      <End Role="db_Order" EntitySet="db_Order" />
+      <End Role="db_Order_Detail" EntitySet="db_Order_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Order_Detail_db_User" Association="Office_ManagementModel.FK_db_Order_Detail_db_User">
+      <End Role="db_User" EntitySet="db_User" />
+      <End Role="db_Order_Detail" EntitySet="db_Order_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_db_Order_Detail_dv_Work_Category" Association="Office_ManagementModel.FK_db_Order_Detail_dv_Work_Category">
+      <End Role="db_Work_Category" EntitySet="db_Work_Category" />
+      <End Role="db_Order_Detail" EntitySet="db_Order_Detail" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="db_Order_Detail">
+    <Key>
+      <PropertyRef Name="Order_Detail_Id" />
+    </Key>
+    <Property Name="Order_Detail_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Order_Id" Type="Int64" Nullable="false" />
+    <Property Name="Emp_Id" Type="Int64" Nullable="false" />
+    <Property Name="Cell_Id" Type="Int64" Nullable="false" />
+    <Property Name="Work_Id" Type="Int64" Nullable="false" />
+    <Property Name="From_Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="To_Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="User_Id" Type="Int64" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Start_time" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="End_time" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Refno" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Details" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="db_Cell" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_Cell" FromRole="db_Order_Detail" ToRole="db_Cell" />
+    <NavigationProperty Name="db_Employee" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_Employee" FromRole="db_Order_Detail" ToRole="db_Employee" />
+    <NavigationProperty Name="db_Order" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_Order" FromRole="db_Order_Detail" ToRole="db_Order" />
+    <NavigationProperty Name="db_User" Relationship="Office_ManagementModel.FK_db_Order_Detail_db_User" FromRole="db_Order_Detail" ToRole="db_User" />
+    <NavigationProperty Name="db_Work_Category" Relationship="Office_ManagementModel.FK_db_Order_Detail_dv_Work_Category" FromRole="db_Order_Detail" ToRole="db_Work_Category" />
+  </EntityType>
+  <Association Name="FK_db_Order_Detail_db_Cell">
+    <End Type="Office_ManagementModel.db_Cell" Role="db_Cell" Multiplicity="1" />
+    <End Type="Office_ManagementModel.db_Order_Detail" Role="db_Order_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Cell">
+        <PropertyRef Name="Cell_Id" />
+      </Principal>
+      <Dependent Role="db_Order_Detail">
+        <PropertyRef Name="Cell_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Order_Detail_db_Employee">
+    <End Type="Office_ManagementModel.db_Employee" Role="db_Employee" Multiplicity="1" />
+    <End Type="Office_ManagementModel.db_Order_Detail" Role="db_Order_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Employee">
+        <PropertyRef Name="Emp_Id" />
+      </Principal>
+      <Dependent Role="db_Order_Detail">
+        <PropertyRef Name="Emp_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Order_Detail_db_Order">
+    <End Type="Office_ManagementModel.db_Order" Role="db_Order" Multiplicity="1" />
+    <End Type="Office_ManagementModel.db_Order_Detail" Role="db_Order_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Order">
+        <PropertyRef Name="Order_Id" />
+      </Principal>
+      <Dependent Role="db_Order_Detail">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Order_Detail_db_User">
+    <End Type="Office_ManagementModel.db_User" Role="db_User" Multiplicity="1" />
+    <End Type="Office_ManagementModel.db_Order_Detail" Role="db_Order_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="db_Order_Detail">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_db_Order_Detail_dv_Work_Category">
+    <End Type="Office_ManagementModel.db_Work_Category" Role="db_Work_Category" Multiplicity="1" />
+    <End Type="Office_ManagementModel.db_Order_Detail" Role="db_Order_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="db_Work_Category">
+        <PropertyRef Name="Work_Id" />
+      </Principal>
+      <Dependent Role="db_Order_Detail">
+        <PropertyRef Name="Work_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

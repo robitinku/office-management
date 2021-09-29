@@ -1,0 +1,382 @@
+﻿@using PagedList.Mvc;
+@using Office_Dll;
+@model PagedList.IPagedList<db_User>
+
+
+
+@Scripts.Render("~/bundles/bootstrap")
+
+<script>
+    $(document).ready(function () {
+
+        var data=[]
+        data =@Html.Raw(Json.Encode(ViewBag._list_Emp_list));
+        $("#empname").autocomplete({
+            minLength: 2,
+            source: data,
+
+            focus: function (event, ui) {
+                $(this).val(ui.item.value);
+                return false;
+            },
+            select: function (event, ui) {
+                $(this).val(ui.item.value);
+                //$(this).closest("tr").find("input[name='empid']").val(ui.item.id);
+                $("#empid").val(ui.item.id);
+                return false;
+            }
+        });
+
+
+        $("#reset").click(function(){
+            $("#Id").val("");
+            $("#User_Name").val("");
+            $("#empid").val("");
+
+            $('#empname').prop('readonly', true);
+            $('#empname').val("");
+            $("#Active").prop("checked", true);
+            $("#Password").val("");
+            $("#rePassword").val("");
+        });
+
+        $("#save").click(function(){
+            // alert($('#empid').val().trim());
+            if ($('#User_Name').val().trim() == '')
+            {
+
+                $('#message').html("User Name require");
+
+            }
+            else if ($('#empid').val().trim() == '' || $('#empid').val().trim() == '0')
+            {
+
+                $('#message').html("Employee Name require");
+
+            }
+
+            else if ($('#Password').val().trim() == '' && $("#Id").val() == "")
+            {
+
+                $('#message').html("Password require");
+
+            }
+            else if($('#Password').val().trim() != '' && $('#Password').val().length <8)
+            {
+                $('#message').html("Password Must Be 8 Digit");
+
+            }
+            else if( $('#Password').val()!=$('#rePassword').val())
+            {
+                $('#message').html("Password Not Match");
+
+            }
+            else {
+
+                if ($("#Id").val() == "") {
+
+
+                    var params = {
+                        User_Name: $("#User_Name").val().trim(),
+                        Status: $("input[name='Status']:checked").val(),
+                        Password: $("#Password").val().trim(),
+                        Category: $("#Category option:selected").text(),
+                        Emp_Id: $("#empid").val().trim()
+
+                    };
+
+                    var fun = '@Url.Action("AddData")';
+                    $.fn.ajaxfuncall(params, fun);
+
+
+                }
+
+                else {
+
+
+                    var params = {
+                        User_Id: $("#Id").val(),
+                        User_Name: $("#User_Name").val().trim(),
+                        Status: $("input[name='Status']:checked").val(),
+                        Password: $("#Password").val().trim(),
+                        Category: $("#Category option:selected").text(),
+                        Emp_Id: $("#empid").val().trim()
+                    };
+
+                    var fun = '@Url.Action("EditData")';
+                    $.fn.ajaxfuncall(params, fun);
+
+
+                }
+
+            }
+
+        });
+
+        $.fn.ajaxfuncall = function (params, fun) {
+
+
+            $.ajax({
+                url: fun,
+                data: JSON.stringify({ data: params }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (message) {
+
+                    if (message == false) {
+                        $('#message').html("Name Already Exist");
+
+                    }
+                    else {
+                        $("#Id").val("");
+                        $("#User_Name").val("");
+                        $("#empid").val("");
+
+                        $('#empname').prop('readonly', true);
+                        $('#empname').val("");
+                        $("#Active").prop("checked", true);
+                        $("#Password").val("");
+                        $("#rePassword").val("");
+                        $('#message').html("Save Successfully");
+                        location.reload();
+                    }
+
+
+
+                }
+            });
+
+
+
+        }
+
+        $("#product-table  tr td:nth-child(6)").click(function () {
+            var logid=@Session["userId"];
+            var catType='@Session["Category"].ToString()';
+            //Session["Category"].ToString() == "Admin"
+            //alert(logid);
+            $.ajax({
+                url: '@Url.Action("Edit")',
+
+                data: JSON.stringify({ Id: $(this).find("#Cel_n").val() }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (_db_User) {
+
+                    $("#User_Name").val(_db_User.User_Name);
+                    $('#User_Name').prop('readonly', true);
+                    $("#empname").val(_db_User.Emp_Name);
+                    $('#empname').prop('readonly', true);
+                    $("#Category option:contains('"+_db_User.Category+"')").attr('selected', 'selected');
+                    $('#empid').val(_db_User.Emp_Id);
+
+                    $("#Id").val(_db_User.User_Id);
+
+                    if(logid==_db_User.User_Id || catType=="Admin"){
+                        $("#Password").val('');
+                        $("#rePassword").val('');
+                        $('#Password').prop('readonly', false);
+                        $('#rePassword').prop('readonly',false);
+                    }else{
+                        
+                        $("#Password").val('');
+                        $("#rePassword").val('');
+                        $('#Password').prop('readonly', true);
+                        $('#rePassword').prop('readonly', true);
+                    }
+
+
+                    if (_db_User.Status == true)
+                        $("#Active").prop("checked", true)
+                    else
+                        $("#Inactive").prop("checked", true)
+
+
+
+                }
+            });
+
+
+        });
+
+
+    });
+</script>
+
+
+
+
+
+<!-- start content -->
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>User Info Management</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <th>
+
+                <div id="content-table-inner" style="width:600px;float:left;">
+
+
+                    <div id="table-content">
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+                                <th class="table-header-check"><a id="toggle-all"></a> </th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Employee</a>	</th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">User Name</a>	</th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Category</a></th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Status</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Options</a></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><input type="checkbox" /></td>
+
+
+
+                                    <td>@Html.DisplayFor(modelItem => item.db_Employee.Emp_Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.User_Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                                    
+
+                                    <td>
+                                        @if (item.Status == true)
+                                        {
+                                            @Html.Label("Active")
+                                        }
+                                        else {
+                                            @Html.Label("Inactive")
+                                        }
+                                    </td>
+                                    <td class="options-width">
+                                        @Html.Hidden("Cel_n", item.User_Id)
+                                        <input type="button" class="butts" title="Edit" />
+                                      
+
+
+
+
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                        <!--  end product-table................................... -->
+
+                    </div>
+
+                    <table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+                        <tr>
+                            <td>
+
+
+                                @Html.PagedListPager(Model, page => Url.Action("Index",
+                                     new { page }))
+
+
+                            </td>
+
+                        </tr>
+                    </table>
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div style="margin-left:600px;margin-top:10px;">
+                    <div class="alert alert-success">
+
+                        <span id="message">&nbsp</span>
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                            
+                       
+                    <table border="0" cellpadding="0" cellspacing="0" id="id-form" style="margin-top:5px;">
+                       
+                        <tr>
+                            <th valign="top">Select Employee:</th>
+                            <td><input type="text" class="inp-form-new" value="" id="empname" name="empname" style="width:200px;" />
+                               <input type="text" class="inp-form-new" value="0" id="empid" name="empid" style="display:none;" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Category:</th>
+                            <td>@Html.DropDownList("Category", (SelectList)ViewBag._listCategory, new { @class = "styledselect_form_1" })</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">User Name:</th>
+                            <td><input type="text" class="inp-form" id="User_Name" />
+                                <input type="hidden" class="inp-form" id="Id" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Password:</th>
+                            <td><input type="password" class="inp-form" id="Password" /></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Re-Password:</th>
+                            <td><input type="password" class="inp-form" id="rePassword" /></td>
+                            <td></td>
+                        </tr>
+                        
+                        <tr>
+                            <th valign="top">Status:</th>
+                            <td>
+                                @Html.RadioButton("Status",true,new {id= "Active",  Checked = "checked"})
+                                 @Html.Label("Active")
+
+                               @Html.RadioButton("Status", false, new { id = "Inactive" })
+                               @Html.Label("Inactive")
+                        </td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+
+                                <input type="button" value="Save" class="form-submit" id="save" />
+                                <input type="reset" id="reset" value="" class="form-reset" />
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <!-- end id-form  -->
+                </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+</div>
+

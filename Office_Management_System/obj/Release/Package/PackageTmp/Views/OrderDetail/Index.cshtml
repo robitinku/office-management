@@ -1,0 +1,174 @@
+﻿
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $("#save").on('click', function (e) {
+            if ($("#empid").val() != "0") {
+                var params = {
+                    From_Date: $("#From_Date").val(),
+                    To_Date: $("#To_Date").val(),
+                    Emp_Id: $("#empid").val()
+                };
+                var tr = "";
+                $.ajax({
+                    url: '@Url.Action("OrderInfoDetail")',
+                    data: JSON.stringify({ _db_Order_Detail: params }),
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    contentType: 'application/json',
+                    success: function (result) {
+
+                        tr = result;
+
+                    }
+                });
+
+                $('#product-table .child').html("");
+                $('#product-table .child').append(tr);
+            }
+
+            else {
+
+                alert("Employee Name Require")
+            }
+
+        });
+
+
+        $("#From_Date").datepicker(
+
+              {
+                  maxDate: '0',
+                  beforeShow: function () {
+                      jQuery(this).datepicker('option', 'maxDate', jQuery('#To_Date').val());
+                  },
+                  altFormat: "yy-mm-dd",
+                  dateFormat: "yy-mm-dd"
+
+              }
+
+      );
+
+        $("#To_Date").datepicker(
+
+                {
+                    maxDate: '0',
+                    beforeShow: function () {
+                        jQuery(this).datepicker('option', 'minDate', jQuery('#From_Date').val());
+                    },
+                    altFormat: "yy-mm-dd",
+                    dateFormat: "yy-mm-dd"
+
+                }
+
+        );
+
+
+
+
+       
+
+
+
+    });
+
+</script>
+
+
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>Order Info</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner ...................................................................... START -->
+                <div id="content-table-inner">
+
+                    <!--  start table-content  -->
+                    <div id="table-content">
+
+
+                        <!--  start message-green -->
+                        <div id="message-green">
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+
+                                    <td class="green-left"> @Html.ActionLink("Add Order", "Create", "OrderDetail")</td>
+
+                                </tr>
+                            </table>
+                        </div>
+                        <!--  end message-green -->
+
+                        <!--  start message-green -->
+                        <div id="message-green">
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        Fromdate:&nbsp;&nbsp;&nbsp; @Html.TextBox("From_Date", DateTime.Now.ToString("yyyy-MM-dd"), new { Class = "From_Date", @readonly = true, style = "width:100px;" })&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;Todate: &nbsp;&nbsp;&nbsp;@Html.TextBox("To_Date", DateTime.Now.ToString("yyyy-MM-dd"), new { Class = "Todate", @readonly = true, style = "width:100px;" })
+
+                                    </td>
+                                </tr>
+                                <tr><td></td></tr>
+                                <tr><td style="padding:15px 0 0 300px;"><input type="button" value="Show" class="form-submit" id="save" /></td></tr>
+                            </table>
+                        </div>
+                        <!--  end message-green -->
+                        <!--  start product-table ..................................................................................... -->
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+
+                                <th class="table-header-repeat line-left"><a href=""> Date</a></th>
+
+                                <th class="table-header-repeat line-left"><a href="">Order No</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Option</a></th>
+
+                            </tr>
+                            <tbody class="child"></tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+                <!--  end content-table-inner ............................................END  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+
+
+    <!--  end content -->
+
+</div>

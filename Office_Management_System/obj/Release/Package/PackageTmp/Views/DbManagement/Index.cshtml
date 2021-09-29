@@ -1,0 +1,190 @@
+﻿<style>
+
+    .ui-widget-overlay
+{
+  opacity: .50 !important; /* Make sure to change both of these, as IE only sees the second one */
+  filter: Alpha(Opacity=50) !important;
+
+  background-color: rgb(50, 50, 50) !important; /* This will make it darker */
+} 
+    .ui-dialog-titlebar
+    {
+        display:none;
+    }
+</style>
+
+
+<script>
+
+
+    $(document).ready(function () {
+        //$("#dialog:ui-dialog").dialog("destroy");
+
+        $("#loading").dialog({
+            modal: true,
+            height: 220,
+            width: 220,
+            autoOpen: false
+
+        });
+        $("#Restore").on('click', function (e) {
+        
+            $.ajax({
+                url: '@Url.Action("RestoreDatabase")',
+
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    tr = result;
+
+                }
+            });
+            $('#product-table .child').html("");
+            $('#product-table .child').append(tr);
+
+
+        });
+
+        $("#product-table").on("click", "tr td:nth-child(4)", function (event) { 
+            $("#loading").dialog('open');
+            
+            $.ajax({
+                url: '@Url.Action("Restore")',
+                data: JSON.stringify({ name: $(this).find("#RestoreData").val() }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    $("#loading").dialog('close');
+                    alert(result);
+
+                }
+            });
+        });
+            
+
+       
+
+       
+            
+        $("#Backup").click(function () {
+            $("#loading").dialog('open');
+
+            $.ajax({
+                url: '@Url.Action("BackUp")',
+              
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    $("#loading").dialog('close');
+                    alert(result);
+
+                }
+            });
+           
+                
+
+
+            });
+
+
+
+    });
+  
+</script>
+
+
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>Database Management</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner ...................................................................... START -->
+                <div id="content-table-inner">
+
+                    <!--  start table-content  -->
+                    <div id="table-content">
+
+
+
+
+                        <!--  start message-green -->
+                        <div id="message-green">
+
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                               
+                                <tr><td><input type="button" value="Backup" class="form-submit" id="Backup" />
+                                    <input type="button" value="Restore" class="form-submit" id="Restore" /></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <!--  end message-green -->
+                        <!--  start product-table ..................................................................................... -->
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+
+                                <th class="table-header-repeat line-left"><a href=""> Date</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Directory</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Name</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Option</a></th>
+                               
+                            
+
+                            </tr>
+                            <tbody class="child">
+
+                            </tbody>
+                           
+</table>
+                      
+                    </div>
+
+
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+                <!--  end content-table-inner ............................................END  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+
+    <div id="loading" >
+  
+        <img src="~/images/shared/nav/loading.gif" style="width:200px;height:200px;" />
+    </div>
+    <!--  end content -->
+
+</div>

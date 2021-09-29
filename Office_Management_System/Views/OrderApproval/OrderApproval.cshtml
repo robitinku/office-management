@@ -1,0 +1,270 @@
+﻿
+
+@using Office_Dll;
+
+@model List<orderinfo>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<script src="~/js/jquery/avro-v1.js" charset="utf-8"></script>
+<script>
+    $(document).ready(function () {
+        $("#Work_Id").on('change', function (e) {
+            var Work_Id = $("#Work_Id option:selected").val();
+            var Id = $("#Order_Id").val();
+
+           var url = '@Url.Action("OrderApproval", new { Id = -1, Work_Id = -2})';
+            url = url.replace(-1, Id); //replace -1 with id
+            url = url.replace(-2, Work_Id); //replace -2 with Work_Id
+
+          window.location.href = url;
+
+        });
+
+
+        $("#product-table  tr td:nth-child(6)").click(function () {
+            var params = {
+                Order_Id: $(this).closest("tr").find("#OrderId").val(),
+                Emp_Id: $(this).closest("tr").find("#EmpId").val(),
+                Work_Id: $("#Work_Id option:selected").val()
+                
+            };
+
+
+
+    $.ajax({
+        url: '@Url.Action("Verify")',
+
+        data: JSON.stringify({ data: params }),
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        success: function (result) {
+
+
+        }
+    });
+
+            $(this).html("");
+            $(this).html("<input type='text' value='Verify' size='15' readonly='readonly' style='border:none;'/>");
+
+
+ });
+        $("#product-table  tr td:nth-child(7)").click(function () {
+            var params = {
+                Order_Id: $(this).closest("tr").find("#OrderId").val(),
+                Emp_Id: $(this).closest("tr").find("#EmpId").val(),
+                Work_Id: $("#Work_Id option:selected").val()
+
+            };
+
+
+
+            $.ajax({
+                url: '@Url.Action("Forward")',
+
+                data: JSON.stringify({ data: params }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+                    
+
+
+                }
+            });
+            $(this).html("");
+            $(this).html("<input type='text' value='Forward' size='15' readonly='readonly' style='border:none;'/>");
+
+
+        });
+
+});
+
+</script>
+<style type="text/css">
+    textarea, input {
+        font-size: 20px !important;
+    }
+</style>
+
+
+<div id="content">
+
+
+    <div id="page-heading"><h1>Order Approval Info</h1></div>
+
+
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner -->
+                <div id="content-table-inner">
+                    @using (Html.BeginForm("BillReport", "OrderDetail", FormMethod.Post, new { target = "_blank", Name = "ReportSub" }))
+                    {                   <input type="hidden" value="@ViewBag.Id" name="Order_Id" id="Order_Id" />
+                    <table border="0" cellpadding="0" cellspacing="0" id="id-form">
+
+                        <tr>
+                            <th valign="top">Work Category:</th>
+                            <td>
+                                @Html.DropDownList("Work_Id", (SelectList)ViewBag._list_work_category, new { @class = "styledselect_form_1", style = "width:400px!important;" })
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                    <table id="product-table" width="100%" border="0" cellpadding="0" cellspacing="0" name="list">
+                        <tr>
+                            @*<th class="table-header-check"><a id="toggle-all"></a> </th>*@
+                            <th class="table-header-repeat line-left"><a href="">No </a></th>
+                            <th class="table-header-repeat line-left minwidth-1"><a href="">Name & Designation  </a>	</th>
+                            <th class="table-header-repeat line-left minwidth-1"><a href="">Date</a></th>
+                            @*<th class="table-header-repeat line-left"><a href="">Travel</a></th>*@
+                            <th class="table-header-repeat line-left"><a href="">Day</a></th>
+                            @*<th class="table-header-repeat line-left"><a href="">Total</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Entertainment</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Day</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Total</a></th>
+                            <th class="table-header-repeat line-left"><a href="">All Total</a></th>*@
+                            <th class="table-header-repeat line-left"><a href="">Total</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Verify</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Forward</a></th>
+                        </tr>
+                        @{int i = 0; }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @*<td>
+                                    @if (item.EmpId != 0)
+                                    {
+                                        <input type="checkbox" name="IdList" value="@item.EmpId" checked="checked" class="IdListC" />
+                                    }
+                                </td>*@
+                                <td>
+                                    @if (item.EmpId != 0)
+                                    {
+                                        @(++i)
+
+                                    }
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(modelItem => item.Order_Id,new {id= "OrderId" })
+                                   
+                                    @Html.HiddenFor(modelItem => item.EmpId, new { id = "EmpId" })
+                                    @Html.DisplayFor(modelItem => item.Empname)
+
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Designation)
+                                </td>
+                                <td style="max-width:175px; word-wrap:break-word;">
+                                    @if (item.EmpId != 0)
+                                    {@Html.DisplayFor(modelItem => item.OrderDateAll)}
+                                </td>
+                                @*<td>
+                                    @if (item.EmpId != 0)
+                                    {@Html.DisplayFor(modelItem => item.Travel)}
+                                </td>*@
+                                <td>
+                                    @if (item.EmpId != 0)
+                                    {@Html.DisplayFor(modelItem => item.day)
+
+                                    }
+                                    @*else
+                                    {
+                                        @Html.Label("Total", new { style = "color:black" })
+                                    }*@
+                                </td>
+                                @*<td>
+                                    @Html.DisplayFor(modelItem => item.Ttravel)
+
+                                </td>*@
+                                @*<td>
+                                    @if (item.EmpId != 0)
+                                    {@Html.DisplayFor(modelItem => item.Entertainment)}
+                                </td>*@
+
+                                @*<td>
+                                    @if (item.EmpId != 0)
+                                    {@Html.DisplayFor(modelItem => item.day)
+
+                                    }
+                                    else
+                                    {
+                                        @Html.Label("Total", new { style = "color:black" })
+                                    }
+                                </td>*@
+                                @*<td>
+                                    @Html.DisplayFor(modelItem => item.TEntertainment)
+                                </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Total)
+
+                                </td>
+                                <td>
+@if (item.Status == null && Session["Category"].ToString() == "Verifier")
+{
+                                    <input type="button" value="Verify" class="form-submit" id="verify" />
+}
+else if (item.Status == "verify" || item.Status == "forward")
+{
+    <input type="text" value="Verify" size="15" readonly="readonly" style="border:none;"/>
+}
+                                </td>
+                                <td>
+                                    @if (item.Status == "forward" )
+                                    {
+                                        <input type="text" value="Forward" size="15" readonly="readonly" style="border:none;"/>
+                                    }
+                                    else if (item.Status == "verify" && Session["Category"].ToString() == "Forwarder")
+                                    {
+                                        <input type="button" value="Forward" class="form-submit" id="Forward" />
+                                    }
+                                    
+                                    
+                                </td>
+                            </tr>
+                        }
+
+
+                    </table>
+
+
+                    @*<p><br /></p>
+                        <p><br /></p>
+
+                        <input type="button" value="Bill" class="form-submit" id="Bill" />*@
+
+                            }
+
+
+                    <div class="clear"></div>
+
+
+                </div>
+                <!--  end content-table-inner  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+
+
+
+    <div class="clear">&nbsp;</div>
+
+</div>
+

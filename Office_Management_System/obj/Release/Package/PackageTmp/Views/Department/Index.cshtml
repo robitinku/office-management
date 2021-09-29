@@ -1,0 +1,269 @@
+﻿@using PagedList.Mvc;
+@using Office_Dll;
+@model PagedList.IPagedList<db_Department>
+
+
+
+
+<script>
+$(document).ready(function () {
+
+
+
+$("#save").click(function(){
+    if ($('#Name').val().trim() == '')
+    {
+
+        $('#message').html("Name require");
+
+    }
+
+    else {
+
+        if ($("#Id").val() == "") {
+
+
+            var params = {
+                Name: $("#Name").val().trim(),
+                Status: $("input[name='Status']:checked").val(),
+                Priority:2
+            };
+
+            var fun = '@Url.Action("AddData")';
+            $.fn.ajaxfuncall(params, fun);
+
+
+                    }
+
+        else {
+
+
+            var params = {
+                Dep_id: $("#Id").val(),
+                Name: $("#Name").val().trim(),
+                Status: $("input[name='Status']:checked").val()
+            };
+
+                var fun = '@Url.Action("EditData")';
+            $.fn.ajaxfuncall(params, fun);
+
+
+                    }
+
+                }
+
+            });
+
+$.fn.ajaxfuncall = function (params, fun) {
+
+
+    $.ajax({
+        url: fun,
+        data: JSON.stringify({ data: params }),
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        success: function (message) {
+
+            if (message == false) {
+                $('#message').html("Name Already Exist");
+
+            }
+            else {
+                $("#Id").val("");
+                $("#Name").val("");
+                $("#Active").prop("checked", true);
+                $('#message').html("Save Successfully");
+                location.reload();
+            }
+
+           
+
+        }
+    });
+
+
+
+}
+
+$("#product-table  tr td:nth-child(4)").click(function () {
+
+    $.ajax({
+        url: '@Url.Action("Edit")',
+
+        data: JSON.stringify({ Id: $(this).find("#Cel_n").val() }),
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        success: function (_db_Department) {
+
+            $("#Name").val(_db_Department.Name);
+
+            $("#Id").val(_db_Department.Dep_id);
+            if (_db_Department.Status == true)
+               $("#Active").prop("checked", true)
+           else
+               $("#Inactive").prop("checked", true)
+
+
+
+        }
+    });
+
+
+});
+
+
+    });
+</script>
+
+
+
+
+
+<!-- start content -->
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>Present Posting Info Management</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <th>
+
+                <div id="content-table-inner" style="width:600px;float:left;">
+
+
+                    <div id="table-content">
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+                                <th class="table-header-check"><a id="toggle-all"></a> </th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Name</a>	</th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Status</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Options</a></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><input type="checkbox" /></td>
+
+
+
+                                   
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    
+                                   
+
+                                    <td>
+                                        @if (item.Status == true)
+                                        {
+                                            @Html.Label("Active")
+                                        }
+                                        else {
+                                            @Html.Label("Inactive")
+                                        }
+                                    </td>
+                                    <td class="options-width">
+                                        @Html.Hidden("Cel_n", item.Dep_id)
+                                        <input type="button" class="butts" title="Edit" />
+                                      
+
+
+
+
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                        <!--  end product-table................................... -->
+
+                    </div>
+
+                    <table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+                        <tr>
+                            <td>
+
+
+                                @Html.PagedListPager(Model, page => Url.Action("Index",
+                                     new { page }))
+
+
+                            </td>
+
+                        </tr>
+                    </table>
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div style="margin-left:600px;margin-top:10px;">
+                    <div class="alert alert-success">
+
+                        <span id="message">&nbsp</span>
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                            
+                       
+                    <table border="0" cellpadding="0" cellspacing="0" id="id-form" style="margin-top:5px;">
+
+                        <tr>
+                            <th valign="top">Name:</th>
+                            <td><input type="text" class="inp-form" id="Name" /><input type="hidden" class="inp-form" id="Id" /></td>
+                            <td></td>
+                        </tr>
+                       
+                        
+                        <tr>
+                            <th valign="top">Status:</th>
+                            <td>
+                                @Html.RadioButton("Status",true,new {id= "Active",  Checked = "checked"})
+                                 @Html.Label("Active")
+
+                               @Html.RadioButton("Status", false, new { id = "Inactive" })
+                               @Html.Label("Inactive")
+                        </td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+
+                                <input type="button" value="Save" class="form-submit" id="save" />
+                               
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <!-- end id-form  -->
+                </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+</div>
+

@@ -1,0 +1,134 @@
+﻿@using Office_Dll;
+@model db_work_text
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<script src="~/js/jquery/jquery-2.js" charset="utf-8"></script>
+<script src="~/js/jquery/avro-v1.js" charset="utf-8"></script>
+
+
+
+<script>
+       $(document).ready(function () {
+           $("#save").on('click', function (e) {
+              var AddData = {
+                  WorkTextId: $("#WorkTextId").val(),
+                  Subject: $("#Subject").val(),
+                  DetailHeader: $("#DetailHeader").val(),
+                  DetailFottor: $("#DetailFottor").val()
+
+            };
+               $.ajax({
+                   url:'@Url.Action("EditText")',
+                   data: JSON.stringify({ data: AddData }),
+                   type: 'POST',
+                   dataType: 'json',
+                   async: false,
+                   contentType: 'application/json',
+                   success: function (message) {
+                       alert(message);
+                       window.location.href = '@Url.Action("Index")';
+
+                   }
+               });
+
+
+           });
+
+       });
+</script>
+
+<style type="text/css">
+
+    textarea, input{
+        font-size:20px !important;
+
+    }
+</style>
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>Work Text Management</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <th rowspan="3" class="sized"></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+
+                <div id="content-table-inner" style="width:600px;float:left;">
+
+                    <div id="table-content">
+
+                        <table border="0" cellpadding="0" cellspacing="0" id="id-form">
+
+                            <tr>
+                                <th valign="top">Work Category:</th>
+                                <td>
+                                    @Html.HiddenFor(model => model.WorkTextId)
+                                    @Html.TextBoxFor(model => model.db_Work_Category.Name, new { @readonly = "readonly", @class = "inp-form",Style="width:300px" })
+
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th valign="top">Subject:</th>
+                                <td>@Html.TextBoxFor(model => model.Subject, new { @class = "inp-form", style = "width:300px !important;" })</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th valign="top">Detail Header:</th>
+                                <td>@Html.TextAreaFor(model => model.DetailHeader, new { @cols = 100, @rows = 8 })</td>
+                            <tr>
+                                <th valign="top">Detail Fotter:</th>
+                                <td>@Html.TextAreaFor(model => model.DetailFottor, new { @cols = 100, @rows = 8 })</td>
+
+                            </tr>
+                        </table>
+
+
+
+                        <input type="submit" value="Save" class="form-submit" id="save" />
+
+                    </div>
+
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+
+
+                <!-- end id-form  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+</div>
+
+	
+	<script type="text/javascript" charset="utf-8">
+		$(function(){
+		    $('textarea,input[type=text]').avro({ 'bn': true }, function (isBangla) {
+				if(isBangla) {
+					$('.mode').text('English');
+				} else {
+					$('.mode').text('Bangla');
+				}
+			});
+		});
+	</script>

@@ -1,0 +1,359 @@
+﻿
+@using Office_Dll
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<script src="~/js/jquery/avro-v1.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var resultimg;
+    $(document).ready(function () {
+        $("#promotion_Date").datepicker({
+
+            dateFormat: "yy-mm-dd",
+            changeYear: true,
+            changeMonth: true,
+            numberOfMonths: 1
+
+        });
+
+        $("#promotion_Date").datepicker().datepicker("setDate", new Date());
+
+
+        $("#submit").click(function () {
+
+           var list_db_Emp_Cell=[];
+            $("#additional input:checkbox").each(function () {
+                if (this.checked) {
+                    list_db_Emp_Cell.push($(this).attr('name'));
+                }
+            });
+
+            var AddData = {
+
+                Emp_Name: $("#Emp_Name").val(),
+                Bn_Emp_Name: $("#Bn_Emp_Name").val(),
+                Designation_Id: $("#Designation_Id option:selected").val(),
+                Bank_Id: $("#Bank_Id").val(),
+                promotion_Date: $("#promotion_Date").val(),
+                Email: $("#Email").val(),
+                Mobile: $("#Mobile").val(),
+                Present_Posting:$("#Present_Posting option:selected").val(), 
+                Present_Address: $("#Present_Address").val(),
+                Department: $("#Department").val(),
+                Category_Id: $("#Category_Id option:selected").val(),
+                Status:1,
+                User_Id:1,
+                Date:"2/2/2014",
+                Work_Id: $("#Work_Id option:selected").val(),
+                Cell_Id: $("#Cell_Id option:selected").val(),
+                Image: null,
+                list_db_Emp_Cell:list_db_Emp_Cell,
+                Imagetext: resultimg
+            };
+
+
+            if ($('#Emp_Name').val().trim() == '') {
+
+                $('#message').html("Name require");
+
+            }
+            else if ($('#Bn_Emp_Name').val().trim() == '') {
+
+                $('#message').html("Name(Bangla) require");
+
+            }
+            else if ($('#Bank_Id').val().trim() == '') {
+
+                $('#message').html("Bank Id require");
+
+            }
+            else if ($('#Mobile').val().trim() == '') {
+
+                $('#message').html("Mobile Number require");
+
+            }
+
+
+            else {
+                var fun ='@Url.Action("AddData")' ;
+                $.fn.ajaxfuncall(AddData, fun);
+
+            }
+
+        });
+
+
+        $.fn.ajaxfuncall = function (params, fun) {
+
+
+            $.ajax({
+                url: fun,
+                data: JSON.stringify({ data: params }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+                    if (result == false) {
+
+                        alert("Bank Id Already Exist");
+                    }
+                    else{
+                        alert("Save Successfully");
+                        $("#Emp_Name").val("");
+                        $("#Bn_Emp_Name").val("");
+                        $("#Bank_Id").val("");
+                        $("#Email").val("");
+                        $("#Mobile").val("");
+                        $("#Present_Posting").val("");
+                        $("#Present_Address").val("");
+                        $("#myfile").val("");
+                        $('#image').attr('src', '');
+                        
+                        window.location.href = '@Url.Action("Index")';
+                    }
+
+                }
+            });
+
+
+
+        }
+
+    });
+
+</script>
+
+
+
+<div id="content">
+
+
+    <div id="page-heading"><h1>Add Employee Information</h1></div>
+
+
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"><img src="../images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="../images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+       
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner -->
+                <div id="content-table-inner">
+
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                      
+                        <tr valign="top">
+                            <td>
+
+
+                                <table border="0" cellpadding="0" cellspacing="0" id="id-form">
+                                    <tr>
+                                        <div class="alert alert-success">
+
+                                            <span id="message">&nbsp</span>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Department</th>
+                                        <td>
+                                            <input type="text" class="inp-form" value="ICTD(Operation)" readonly="readonly" />
+                                            <input type="hidden" class="inp-form" value="5" id="Department" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Name</th>
+                                        <td><input type="text" class="inp-form" id="Emp_Name" style="width:250px;" /></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Name (Bangla): </th>
+                                        <td><input type="text" class="inp-form" id="Bn_Emp_Name" style="width:250px;" /></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Designation:</th>
+                                        <td>@Html.DropDownList("Designation_Id", (SelectList)ViewBag._list_Designation, new { @class = "styledselect_form_1" })</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Bank Id:</th>
+                                        <td><input type="text" class="inp-form" id="Bank_Id" /></td>
+
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th valign="top">Promotion Date:</th>
+                                        <td>
+                                            <input type="text" class="inp-form" id="promotion_Date" readonly="readonly" />
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Email:</th>
+                                        <td><input type="text" class="inp-form" id="Email" /></td>
+
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Mobile:</th>
+                                        <td><input type="text" class="inp-form" id="Mobile" /></td>
+
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Job Category</th>
+                                        <td>
+                                            @Html.DropDownList("Category_Id", (SelectList)ViewBag._list_Job_Cate, new { @class = "styledselect_form_1" })
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Addtional Duty:</th>
+                                        <td>
+                                            @Html.DropDownList("Work_Id", (SelectList)ViewBag._list_work_category, new { @class = "styledselect_form_1" })
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Present Posting</th>
+                                        <td>
+                                            @Html.DropDownList("Present_Posting", (SelectList)ViewBag._listDepartmen, new { @class = "styledselect_form_1" })
+                                        </td>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Cell</th>
+                            <td>
+                                @Html.DropDownList("Cell_Id", (SelectList)ViewBag._listCell, new { @class = "styledselect_form_1" })
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Additional Cell:</th>
+                            <td id="additional">
+                                @{int i = 1; }
+                                @foreach (var item in (SelectList)ViewBag._listCell)
+                                {
+
+                                    @Html.CheckBox(item.Value, false, new { style = "margin-right: 5px;" }) @Html.Label(item.Text, new { style = "margin-right: 5px;color:black;" })
+
+
+
+                                    if (i % 3 == 0)
+                                    { <br /> }
+                                    ++i;
+
+
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+
+
+                        <tr>
+                            <th valign="top">Present Address:</th>
+                            <td><textarea rows="" cols="" class="form-textarea" id="Present_Address"></textarea></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <th>@Html.ActionLink("Back to List", "Index")</th>
+
+                            <td valign="top">
+
+                                <input type="button" value="Save" class="form-submit" id="submit" />
+                                
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                    <!-- end id-form  -->
+
+            </td>
+            <td>
+
+                <!--  start related-activities2222 -->
+
+                <div id="imageshow">
+
+                    <img id="image" src="" alt="" width="200" height="188" />
+
+                </div>
+                <div>
+                    <input type="file" id="myfile" name="myfile" accept="image/*" style="margin:10px 0 0 130px;">
+                </div>
+
+
+
+
+
+                <!-- end related-activities -->
+
+            </td>
+        </tr>
+
+    </table>
+
+    <div class="clear"></div>
+
+
+</div>
+<!--  end content-table-inner  -->
+            </td>
+<td id="tbl-border-right"></td>
+        </tr>
+<tr>
+    <th class="sized bottomleft"></th>
+    <td id="tbl-border-bottom">&nbsp;</td>
+    <th class="sized bottomright"></th>
+</tr>
+    </table>
+
+
+
+<div class="clear">&nbsp;</div>
+
+</div>
+<script>
+	function handleFileSelect(evt) {
+
+    var files = evt.target.files; // FileList object, files[0] is your file
+    var f = files[0];
+    var reader = new FileReader();
+
+    reader.onload = (function(theFile) {
+        return function (e) {
+            resultimg = reader.result;
+	   document.getElementById("image").src= e.target.result;
+           //document.getElementById('list').innerHTML = ['<img src="', e.target.result,'" title="', theFile.name, '" />'].join('');
+       };
+    })(f);
+
+    reader.readAsDataURL(f);
+    }
+
+    document.getElementById('myfile').addEventListener('change', handleFileSelect, false);
+</script>
+
+<script type="text/javascript" charset="utf-8">
+		$(function(){
+		    $('#Bn_Emp_Name').avro({ 'bn': true }, function (isBangla) {
+				if(isBangla) {
+					$('.mode').text('English');
+				} else {
+					$('.mode').text('Bangla');
+				}
+			});
+		});
+</script>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a6ca6d51f4344ffc974062b9914c2a10" Name="Diagram1" ZoomLevel="78">
+        <EntityTypeShape EntityType="Office_ManagementModel.db_calendar" Width="1.5" PointX="10.5" PointY="16.25" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Cell" Width="1.5" PointX="0.75" PointY="13.125" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Department" Width="1.5" PointX="3.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Designation" Width="1.5" PointX="10.5" PointY="19.375" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Emp_Cell" Width="1.5" PointX="3" PointY="13.375" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Employee" Width="1.5" PointX="6" PointY="11.75" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_image" Width="1.5" PointX="13.5" PointY="17.125" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Job_Cate" Width="1.5" PointX="3.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Order" Width="1.5" PointX="10.5" PointY="27" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Order_Detail" Width="1.5" PointX="15.75" PointY="18.5" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_User" Width="1.5" PointX="8.25" PointY="21.125" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_Work_Category" Width="1.5" PointX="10.5" PointY="22.5" />
+        <EntityTypeShape EntityType="Office_ManagementModel.db_work_text" Width="1.5" PointX="12.75" PointY="23.25" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_calendar_db_User" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Emp_Cell_db_Cell" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Employee_db_Cell" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Order_Detail_db_Cell" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Employee_db_Department" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Employee_db_Department1" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Designation_db_User" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Employee_db_Designation" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Emp_Cell_db_Employee" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Emp_Cell_db_User" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Employee_db_Job_Cate" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Employee_db_Work_Category" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_image_db_Employee" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Order_Detail_db_Employee" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_User_db_Employee" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_image_db_User" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Order_db_User" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Order_Detail_db_Order" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Order_Detail_db_User" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Order_Detail_dv_Work_Category" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_Work_Category_db_User" />
+        <AssociationConnector Association="Office_ManagementModel.FK_db_work_text_db_Work_Category" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

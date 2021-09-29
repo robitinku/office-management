@@ -1,0 +1,429 @@
+﻿
+@using Office_Dll;
+
+@model List<orderinfo>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<script src="~/js/jquery/avro-v1.js" charset="utf-8"></script>
+<script>
+    $(document).ready(function () {
+        $("#Work_Id").on('change', function (e) {
+            var Work_Id = $("#Work_Id option:selected").val();
+            var Id = $("#Order_Id").val();
+           
+           var url = '@Url.Action("Bill", new { Id = -1, Work_Id = -2})';
+            url = url.replace(-1, Id); //replace -1 with id
+            url = url.replace(-2, Work_Id); //replace -2 with Work_Id
+
+          window.location.href = url;
+
+        });
+        $("#Order").on("click", function () {
+            document.ReportSub.action = '@Url.Action("OrderReport")';
+            document.ReportSub.submit();
+          
+        });
+
+        $("#Bill").on("click", function () {
+            document.ReportSub.action = '@Url.Action("BillReport")';
+            document.ReportSub.submit();
+            
+        });
+        $("#product-table").on("click", "tr td input[type='checkbox']", function () {
+            
+            if ($(this).closest("tr").find("input[name='IdList']").is(':checked') == false) {
+                taravel = parseFloat($(this).closest("tr").find("td:nth-child(7)").text());
+                travelTotal = parseFloat($("#product-table  tr:last-child td:nth-child(7)").text())
+                temp = travelTotal - taravel;
+                $("#product-table  tr:last-child td:nth-child(7) ").text(temp);
+
+                entertain = parseFloat($(this).closest("tr").find("td:nth-child(10)").text());
+                entertainTotal = parseFloat($("#product-table  tr:last-child td:nth-child(10)").text())
+                temp = entertainTotal - entertain;
+                $("#product-table  tr:last-child td:nth-child(10) ").text(temp);
+
+                ttotal = parseFloat($(this).closest("tr").find("td:nth-child(11)").text());
+                AllTotal = parseFloat($("#product-table  tr:last-child td:nth-child(11)").text())
+                temp = AllTotal - ttotal;
+                $("#product-table  tr:last-child td:nth-child(11) ").text(temp);
+                inWords($("#product-table  tr:last td:nth-child(7) ").text(), 'ttotal');
+                inWords($("#product-table  tr:last td:nth-child(10) ").text(), 'etotal');
+                //inWords($("#product-table  tr:last td:nth-child(11) ").text(), 'total');
+                var total = $("#product-table  tr:last td:nth-child(11) ").text();
+                inWords(total, 'total');
+                toBangla(total, 'total');
+                toBangla($("#product-table  tr:last td:nth-child(7) ").text(), 'ttotal');
+                toBangla($("#product-table  tr:last td:nth-child(10) ").text(), 'etotal');
+            } else {
+                taravel = parseFloat($(this).closest("tr").find("td:nth-child(7)").text());
+                travelTotal = parseFloat($("#product-table  tr:last-child td:nth-child(7) ").text())
+                temp = travelTotal + taravel;
+                $("#product-table  tr:last-child td:nth-child(7)").text(temp);
+                entertain = parseFloat($(this).closest("tr").find("td:nth-child(10)").text());
+                entertainTotal = parseFloat($("#product-table  tr:last-child td:nth-child(10)").text())
+                temp = entertainTotal + entertain;
+                $("#product-table  tr:last-child td:nth-child(10) ").text(temp);
+
+                ttotal = parseFloat($(this).closest("tr").find("td:nth-child(11)").text());
+                AllTotal = parseFloat($("#product-table  tr:last-child td:nth-child(11)").text())
+                temp = AllTotal+ ttotal;
+                $("#product-table  tr:last-child td:nth-child(11) ").text(temp);
+                inWords($("#product-table  tr:last td:nth-child(7) ").text(), 'ttotal');
+                inWords($("#product-table  tr:last td:nth-child(10) ").text(), 'etotal');
+                var total = $("#product-table  tr:last td:nth-child(11) ").text();
+                inWords(total, 'total');
+                toBangla(total, 'total');
+                toBangla($("#product-table  tr:last td:nth-child(7) ").text(), 'ttotal');
+                toBangla($("#product-table  tr:last td:nth-child(10) ").text(), 'etotal');
+            }
+            
+        });
+
+
+
+        var a = ['শূন্য', 'এক', 'দুই', 'তিন', 'চার', 'পাঁচ', 'ছয়', 'সাত', 'আট', 'নয়',
+'দশ', 'এগার', 'বার', 'তের', 'চৌদ্দ', 'পনের', 'ষোল', 'সতের', 'আঠার', 'ঊনিশ',
+'বিশ', 'একুশ', 'বাইশ', 'তেইশ', 'চব্বিশ', 'পঁচিশ', 'ছাব্বিশ', 'সাতাশ', 'আঠাশ', 'ঊনত্রিশ',
+'ত্রিশ', 'একত্রিশ', 'বত্রিশ', 'তেত্রিশ', 'চৌত্রিশ', 'পঁয়ত্রিশ', 'ছত্রিশ', 'সাঁইত্রিশ', 'আটত্রিশ', 'ঊনচল্লিশ',
+'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'তেতাল্লিশ', 'চুয়াল্লিশ', 'পঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
+'পঞ্চাশ', 'একান্ন', 'বায়ান্ন', 'তিপ্পান্ন', 'চুয়ান্ন', 'পঞ্চান্ন', 'ছাপ্পান্ন', 'সাতান্ন', 'আটান্ন', 'ঊনষাট',
+'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেষট্টি', 'সাতষট্টি', 'আটষট্টি', 'ঊনসত্তর',
+'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
+'আশি', 'একাশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
+'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আটানব্বই', 'নিরানব্বই',
+        ];
+
+        //var val1 = $(t).find('tr:last td:eq(6)').text();
+       // alert(val1);
+        //$("button").click(function () {
+        var len = $('#product-table tr').length-2;
+        len = $('#product-table tr').length - len;
+      
+        //alert(len);
+        inWords($("#product-table  tr:last td:nth-child(7) ").text(), 'ttotal');
+        inWords($("#product-table  tr:last td:nth-child(10) ").text(), 'etotal');
+        var total1 = $("#product-table  tr:last td:nth-child(11) ").text();
+       
+        inWords(total1, 'total');
+        toBangla(total1, 'total');
+        toBangla($("#product-table  tr:last td:nth-child(7) ").text(), 'ttotal');
+        toBangla($("#product-table  tr:last td:nth-child(10) ").text(), 'etotal');
+       
+        //var txtfooter = $.trim($("#DetailFottor").val());
+        // var contxt = $('#totalNumber').text() + $('#ttotal').text();
+        //txtfooter = txtfooter.replace('##tt##', contxt);
+        //$('#DetailFottor').val('');
+        //$('#DetailFottor').val(txtfooter);
+
+        function inWords(num,id) {
+            
+            num = $.trim(num);
+            if ((num = num.toString()).length > 9) return 'overflow';
+            num = parseInt(num);
+            n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return false;
+            var str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' কোটি ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' লাখ ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + ' হাজার ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + ' শত ' : '';
+            str += (n[5] != 0) ? ((str != '') ? '' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + '' : '';
+            if (id=='total')
+                $('#total').text("("+str+")");
+            if (id == 'etotal')
+                $('#etotal').text("(" + str + ")");
+            if (id == 'ttotal')
+                $('#ttotal').text("(" + str + ")");
+
+        }
+
+
+        function toBangla(str,id) {
+            //check if the `str` is not string
+            if (!isNaN(str)) {
+                //if not string make it string forcefully
+                str = String(str);
+            }
+            str = $.trim(str);
+
+
+            //start try catch block
+            try {
+                //keep the bangla numbers to an array
+                var convert = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+                //now split the provided string into array by each character
+                var splitArray = str.split("");
+                
+                //declare a empty string
+                var newString = "";
+                //run a loop upto the length of the string array
+                for (i = 0; i < splitArray.length; i++) {
+
+                    //check if current array element if not number
+                    if (isNaN(splitArray[i])) {
+                        //if not number then place it as it is
+                        newString += splitArray[i];
+                    } else {
+                        //if number then get same numbered element from the bangla array
+                        newString += convert[splitArray[i]];
+                    }
+                }
+                //return the newly converted number
+                
+               // return newString;
+                if (id == 'total')
+                    $('#totalNumber').text(newString+"/-");
+                if (id == 'etotal')
+                    $('#etotalNumber').text(newString + "/-");
+                if (id == 'ttotal')
+                    $('#ttotalNumber').text(newString + "/-");
+            }
+            catch (err) {
+                //if any error occured while convertion return the original string
+                alert(str);
+                //  return str;
+            }
+            
+        }
+});
+    
+    </script>
+<style type="text/css">
+    textarea ,input{
+        font-size: 20px !important;
+    }
+</style>
+
+
+<div id="content">
+
+
+    <div id="page-heading"><h1>Edit Bill Information</h1></div>
+
+   
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+    <tr>
+        <th rowspan="3" class="sized"></th>
+        <th class="topleft"></th>
+        <td id="tbl-border-top">&nbsp;</td>
+        <th class="topright"></th>
+        <th rowspan="3" class="sized"></th>
+    </tr>
+    <tr>
+        <td id="tbl-border-left"></td>
+        <td>
+            <!--  start content-table-inner -->
+            <div id="content-table-inner">
+                @using (Html.BeginForm("BillReport", "OrderDetail", FormMethod.Post, new { target = "_blank", Name = "ReportSub" }))
+                {                   <input type="hidden" value="@ViewBag.Id" name="Order_Id" id="Order_Id" />
+                    <table border="0" cellpadding="0" cellspacing="0" id="id-form">
+
+                        <tr>
+                            <th valign="top">Work Category:</th>
+                            <td>
+                                @Html.DropDownList("Work_Id", (SelectList)ViewBag._list_work_category, new { @class = "styledselect_form_1", style = "width:400px!important;" })
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Ref no:</th>
+                            <td>@Html.TextBox("RefNo", (string)ViewBag.RefNo, new { @class = "inp-form", style = "width:600px !important;" })</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Subject:</th>
+                            <td>@Html.TextBox("Subject", (string)ViewBag.Subject, new { @class = "inp-form", style = "width:600px !important;" })</td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <th valign="top">Order Detail:</th>
+                            <td><textarea id="OrderDetail" name="OrderDetail" cols="100" rows="8">@ViewBag.OrderDetail</textarea>
+
+                        </tr>
+                        <tr>
+                            <th valign="top">Bill Header:</th>
+                            <td><textarea id="DetailHeader" name="DetailHeader" cols="100" rows="8">@ViewBag.DetailHeader</textarea>
+
+                        </tr>
+                    </table>
+                    <table id="product-table" width="100%" border="0" cellpadding="0" cellspacing="0" name="list">
+                        <tr>
+                            <th class="table-header-check"><a id="toggle-all"></a> </th>
+                            <th class="table-header-repeat line-left"><a href="">No </a></th>
+                            <th class="table-header-repeat line-left minwidth-1"><a href="">Name & Designation  </a>	</th>
+                            <th class="table-header-repeat line-left minwidth-1"><a href="">Date</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Travel</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Day</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Total</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Entertainment</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Day</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Total</a></th>
+                            <th class="table-header-repeat line-left"><a href="">All Total</a></th>
+                        </tr>
+                        @{int i = 0; }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.EmpId != 0)
+                                    {
+                                        <input type="checkbox" name="IdList" value="@item.EmpId" checked="checked" class="IdListC" />
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.EmpId != 0)
+                                    {
+                                        @(++i)
+
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Empname)
+
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Designation)
+                                </td>
+                                <td style="max-width:175px; word-wrap:break-word;">
+                                    @if (item.EmpId != 0)
+                                {@Html.DisplayFor(modelItem => item.OrderDateAll)}
+                            </td>
+                            <td>
+                                @if (item.EmpId != 0)
+                            {@Html.DisplayFor(modelItem => item.Travel)}
+                        </td>
+                        <td>
+                            @if (item.EmpId != 0)
+                            {@Html.DisplayFor(modelItem => item.day)
+
+                            }
+                            else
+                            {
+                                @Html.Label("Total", new { style = "color:black" })
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ttravel)
+
+                        </td>
+                        <td>
+                            @if (item.EmpId != 0)
+                        {@Html.DisplayFor(modelItem => item.Entertainment)}
+                    </td>
+
+                    <td>
+                        @if (item.EmpId != 0)
+                        {@Html.DisplayFor(modelItem => item.day)
+
+                        }
+                        else
+                        {
+                            @Html.Label("Total", new { style = "color:black" })
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TEntertainment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total)
+
+                    </td>
+                </tr>
+                        }
+
+
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" id="bangla" style="font-size: 19px;">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="max-width:175px; word-wrap:break-word;"></td>
+                            <td></td>
+                            <td  style="padding: 15px; font-weight: bold;">
+                                Travel Total:
+                            </td>
+                            <td id="ttotalNumber"></td>
+                            <td style="width:10px;"></td>
+                            <td id="ttotal"></td>
+                            
+                            <td  style="padding: 15px; font-weight: bold;">
+                                Entertainment Total:
+                            </td>
+                            <td id="etotalNumber"></td>
+                            <td style="width:10px;"></td>
+                            <td id="etotal"></td>
+                            <td  style="padding: 15px; font-weight: bold;">Total: </td>
+                            <td id="totalNumber"></td><td style="width:10px;"></td><td id="total"></td>
+                        </tr>
+                    </table>
+                        <table border="0" cellpadding="0" cellspacing="0" id="id-form">
+                            <tr>
+                                <th valign="top">Bill Footer:</th>
+                                <td><textarea id="DetailFottor" name="DetailFottor" cols="100" rows="8">@ViewBag.DetailFottor</textarea></td>
+                            </tr>
+                            <tr>
+                                <th valign="top">Prepared By:</th>
+                                <td>@Html.TextBox("Emp_Name", Session["Bn_Emp_Name"].ToString(), new { style = "width:400px!important;" })</td>
+                            </tr>
+                            <tr>
+                                <th valign="top">Designation  :</th>
+                                <td>@Html.TextBox("Designation",Session["Bn_Designation"].ToString(), new { style = "width:600px!important;" })</td>
+                            <tr>
+                            <tr>
+                                <th valign="top">Signatory Name:</th>
+                                <td>@Html.TextBox("Signatory", "(খন্দকার মোহাম্মদ শরীফ উদ্দিন)", new { style = "width:400px!important;" })</td>
+                            </tr>
+                            <tr>
+                                <th valign="top">Signatory Detail  :</th>
+                                <td>
+                                    @Html.TextBox("SignatoryD", "এজিএম (ডিপার্টমেন্ট ইনচার্জ)", new { style = "width:600px!important;" })
+                                </td>
+                            <tr>
+                            <tr>
+                                <th valign="top">CC Copy:</th>
+                                <td><textarea id="CCCopy" name="CCCopy" cols="100" rows="8"></textarea></td>
+                            </tr>
+                        </table>
+
+                        <p><br /></p>
+                        <p><br /></p>
+                        <input type="button" value="Order" class="form-submit" id="Order" />
+                        <input type="button" value="Bill" class="form-submit" id="Bill" />
+
+                            }
+
+
+                    <div class="clear"></div>
+
+
+</div>
+<!--  end content-table-inner  -->
+            </td>
+<td id="tbl-border-right"></td>
+        </tr>
+<tr>
+    <th class="sized bottomleft"></th>
+    <td id="tbl-border-bottom">&nbsp;</td>
+    <th class="sized bottomright"></th>
+</tr>
+ </table>
+
+
+
+<div class="clear">&nbsp;</div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+		$(function(){
+		    $('textarea,#Subject,#Emp_Name,#Designation,#RefNo,#Signatory,#SignatoryD,#CCCopy').avro({ 'bn': true }, function (isBangla) {
+				if(isBangla) {
+					$('.mode').text('English');
+				} else {
+					$('.mode').text('Bangla');
+				}
+			});
+		});
+</script>

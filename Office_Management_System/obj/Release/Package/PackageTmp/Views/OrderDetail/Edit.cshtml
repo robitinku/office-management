@@ -1,0 +1,427 @@
+﻿
+@using Office_Dll;
+@model List<orderinfo>
+
+<script src="~/js/jquery/avro-v1.js" charset="utf-8"></script>
+<script src="~/Scripts/multidatespicker.js"></script>
+<link href="~/Content/multidatespicker.css" rel="stylesheet" />
+<script>
+
+
+    $(document).ready(function () {
+
+     
+
+       
+
+        var arr = [];
+        $("#product-table").on("click", "tr td input[name='delete']", function (event) {
+
+            var params = {
+                detailid: $(this).closest("tr").find("input:hidden[name='item.detailid']").val(),
+                Order_Id: $(this).closest("tr").find("input:hidden[name='item.Order_Id']").val(),
+                EmpId: $(this).closest("tr").find("input:hidden[name='item.EmpId']").val()
+            }
+
+            arr.push(params);
+
+            $(this).closest("tr").remove();
+
+        });
+        $("#save").on('click', function (e) {
+            var savedata = [];
+            $.each(arr, function (index, value) {
+                savedata.push(value);
+            });
+            $("#product-table tr").each(function (i) {
+
+                if ($(this).find("input:hidden[name='item.EmpId']").val() != "0" && $(this).find("input:hidden[name='item.EmpId']").val() != null) {
+                    Start_Time = $(this).find("#starth").val() + ":" + $(this).find("#startm").val();
+                    End_Time = $(this).find("#endh").val() + ":" + $(this).find("#endm").val();
+
+                    var params = {
+                        Order_Id: $(this).closest("tr").find("input:hidden[name='item.Order_Id']").val(),
+                       // Detail: $("#Detail").val(),
+                        detailid: $(this).closest("tr").find("input:hidden[name='item.detailid']").val(),
+                        EmpId: $(this).find("input:hidden[name='item.EmpId']").val(),
+                        Cellid: $(this).find("#Cell_Id option:selected").val(),
+                        Work_Id: $("#Work_Id option:selected").val(),
+                        From_Dateall: $(this).find(".From_Date").val(),
+                        Details: $(this).find("#Details").val()
+
+
+                    
+                       // Date: $("#Order_Date").val(),
+                    // Detail: $("#Detail").val(),
+                      
+                        
+
+                    };
+                    savedata.push(params);
+
+
+                }
+
+            });
+           
+
+
+
+            $.ajax({
+                url: '@Url.Action("SaveEdit")',
+                data: JSON.stringify({ data: savedata }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    alert(result);
+                    if (result == "Save Successfully")
+                    {
+                        window.location.href = '@Url.Action("Index")';
+                    }
+
+
+                }
+            });
+
+        });
+
+    var container ="<tr>" + $('.allInfo').html() +"</tr>"; // container to add
+    //id numbers for add. datepickers
+    var ids = 1;
+    $("#product-table tbody").on("change", "tr td:nth-child(1)", function () {
+
+            var empid = $(this).closest("tr").find("input[name='empid']").val();
+            var Employeeinfo;
+            $.ajax({
+                url: '@Url.Action("EmpInfoId")',
+                data: JSON.stringify({ empid: empid }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    Employeeinfo = result;
+
+                }
+            });
+
+        $('.Details').avro({ 'bn': true }, function (isBangla) {
+            if (isBangla) {
+                $('.mode').text('English');
+            } else {
+                $('.mode').text('Bangla');
+            }
+        });
+
+           
+
+
+        });
+        $("#product-table").on("keydown", "tr td:nth-child(1)", function (evt) {
+
+        var data = [];
+
+            $.ajax({
+                url: '@Url.Action("EmpInfoDetail")',
+                data: JSON.stringify({ imagename: "" }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    data = result;
+
+                }
+            });
+
+        $(this).find("input[name='item.Empname']").autocomplete({
+                minLength: 2,
+                source: data._list_Emp_list,
+
+                focus: function (event, ui) {
+                    $(this).val(ui.item.value);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.value);
+                    $(this).closest("tr").find("input[name='item.EmpId']").val(ui.item.id);
+
+                    return false;
+                }
+            });
+
+
+        if ($(this).closest('tr').next('tr').is('tr') == false) {
+            $('#product-table tbody').append(container); // add container
+            $('.From_Date:last').attr('id', ids);// each datepicker must have a unique id.
+            ids++;
+        
+            i = 1;
+            $.fn.pagedata(i);
+           // $("#product-table tr:last").find('.spninerwidth').spinner({ max: 23, min: 0 });
+            // $("#product-table tr:last").find(".spninerwidthm").spinner({ max: 59, min: 0, step: 5 });;
+            
+        }
+
+    });
+
+       
+       
+
+        $("#product-table tbody").on("blur", "tr td:nth-child(1)", function () {
+
+        var empid = $(this).closest("tr").find("input[name='item.EmpId']").val();
+
+        if (empid!=""){
+        var Employeeinfo;
+        $.ajax({
+            url: '@Url.Action("EmpInfoId")',
+            data: JSON.stringify({ empid: empid }),
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            contentType: 'application/json',
+            success: function (result) {
+
+                Employeeinfo = result;
+
+            }
+        });
+
+
+
+            $(this).closest("tr").find("input[name='item.Bank_Id']").val(Employeeinfo.Bank_Id);
+        $(this).closest("tr").find("input[name='item.Designation']").val(Employeeinfo.Designation);
+        // alert(Employeeinfo);
+        }
+
+    });
+
+
+
+});
+
+    $(document).ready(function () {
+
+
+
+
+
+        $("#Order_Date").datepicker({
+
+            dateFormat: "yy-mm-dd",
+            changeYear: true,
+            changeMonth: true,
+            numberOfMonths: 1
+
+        });
+
+        $("#Order_Date").datepicker().datepicker("setDate", new Date());
+
+
+        $.fn.pagedata = function (i) {
+            
+            $(".From_Date").multiDatesPicker({
+                
+                dateFormat: 'yy-mm-dd'
+                
+               
+            });
+
+           
+
+          
+           // $(".To_Date").datepicker().datepicker("setDate", new Date());
+            //$(".From_Date").datepicker().datepicker("setDate", new Date());
+
+        }
+        $.fn.pagedata();
+    });
+
+</script>
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>Order Edit Management</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner ...................................................................... START -->
+                <div id="content-table-inner">
+
+                    <!--  start table-content  -->
+                    <div id="table-content">
+
+
+
+
+                        <!--  start message-green -->
+                        <div id="message-green">
+                           
+                            <p style="display:none;">Date:<input type="text" id="Order_Date" readonly="readonly" /></p>
+
+                            <p><br /></p>
+                            <p>Detail:</p>
+                            <p><br /></p>
+                            <p>Work Schedule:&nbsp;@Html.DropDownList("Work_Id", new SelectList(ViewBag._list_work_category, "Value", "Text", ViewBag.WORK_id), new { style = "width: 250px" })</p>
+</div>
+                        <!--  end message-green -->
+                        <!--  start product-table ..................................................................................... -->
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+
+                                <th class="table-header-repeat line-left"><a href=""> Name</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Designation</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Bank Id</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Cell</a></th>
+
+                                <th class="table-header-repeat line-left"><a href=""> Date</a></th>
+
+                                <th class="table-header-repeat line-left"><a href="">Details</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Options</a></th>
+
+                            </tr>
+@if (Model != null)
+{
+foreach (var item in Model)
+{
+
+                            <tr>
+
+                                <td>
+                                    @Html.TextBoxFor(modelItem => item.Empname, new { style = "width:200px;" })
+                                    @Html.TextBoxFor(modelItem => item.EmpId, new { @class = "inp-form", @readonly = "readonly", style = "display:none" })
+                                    @Html.TextBoxFor(modelItem => item.detailid, new { @class = "inp-form", @readonly = "readonly", style = "display:none" })
+                                    @Html.TextBoxFor(modelItem => item.Order_Id, new { @class = "inp-form", @readonly = "readonly", style = "display:none" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => item.Designation, new { @readonly = "readonly" })
+
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => item.Bank_Id, new { @readonly = "readonly", style = "width:50px;" })
+                                </td>
+                                <td>
+                                    @Html.DropDownList("Cell_Id", new SelectList(ViewBag._listCell, "Value", "Text", item.Cellid), new { style = "width: 100px" })
+                                    
+                                </td>
+                                
+                                <td>
+                                
+                                    @*@Html.TextBox("From_Date","", new { Class = "From_Date", @readonly = true, style = "width:250px;" })*@
+                                    <input type="text" class="From_Date" value='@item.From_Dateall'  name="From_Date" style="width:250px;" readonly="true" />
+                                    
+                                  
+                                   
+                                </td>
+                              
+                                <td>
+                                    <input type="text" id="Details" maxlength="50" class="Details" value='@item.Details' name="From_Date" style="width:200px;"  />
+                                  
+                                </td>
+                                
+
+                                <td>
+                                  
+
+                                    @Html.Hidden("Cel_n", item.detailid)
+                                    <input type="button" class="del" title="Delete" name="delete" />
+
+
+                                </td>
+</tr>
+
+                                            }
+                                        }
+
+                            <tr class="allInfo">
+
+                                <td>
+                                    <input type="text" class="inp-form-new" value="" id="empname" name="item.Empname" style="width:200px;" />
+                                    <input type="text" class="inp-form-new" value="0" id="item_EmpId" name="item.EmpId" style="display:none;" />
+                                    <input type="text" class="inp-form-new" value="@Model[0].Order_Id" id="item.Order_Id" name="item.Order_Id" style="display:none;" />
+                                </td>
+                                <td>
+                                    <input type="text"  value="" readonly="readonly" id="item.Designation" name="item.Designation"  />
+                                </td>
+                                <td>
+                                    <input type="text" class="inp-form-new" value="" readonly="readonly" id="item.Bank_Id" name="item.Bank_Id" style="width:50px;" />
+                                </td>
+                                <td>
+                                    @Html.DropDownList("Cell_Id", (SelectList)ViewBag._listCell, new {  style = "width: 100px" })
+                                </td>
+                                
+                                <td>
+                                    @Html.TextBox("From_Date", "", new { Class = "From_Date", @readonly = true, style = "width:250px;" })
+
+
+
+                                </td>
+                               
+                                <td>
+                                    <input type="text" class="Details" maxlength="50" value="" id="Details" name="Details" style="width:200px;font-family:SolaimanLipi;" />
+
+
+                                </td>
+                                <td>
+
+                                </td>
+
+                            </tr>
+                        </table>
+                        <!--  end product-table................................... -->
+                        <input type="button" value="Save" class="form-submit" id="save" />
+                    </div>
+
+
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+                <!--  end content-table-inner ............................................END  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+
+
+    <!--  end content -->
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+		    $('.Details').avro({ 'bn': true }, function (isBangla) {
+		        if (isBangla) {
+		            $('.mode').text('English');
+		        } else {
+		            $('.mode').text('Bangla');
+		        }
+		    });
+		});
+</script>

@@ -1,0 +1,163 @@
+﻿@using Office_Dll;
+@model db_Employee
+
+
+
+<div id="content">
+
+
+    <div id="page-heading"><h1>Employee Information</h1></div>
+
+
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner -->
+                <div id="content-table-inner">
+
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                        <tr valign="top">
+                            <td>
+
+
+                                <table border="0" cellpadding="0" cellspacing="0" id="id-form">
+                                    <tr>
+                                        <th valign="top">Name</th>
+                                        <td>@Html.DisplayFor(model => model.Emp_Name)</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Designation:</th>
+                                        <td>@Html.DisplayFor(model => model.db_Designation.Name)</td>
+                                       
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Bank Id:</th>
+                                        <td>@Html.DisplayFor(model => model.Bank_Id)</td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Email:</th>
+                                        <td>@Html.DisplayFor(model => model.Email)</td>
+                                       
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Mobile:</th>
+                                        <td>@Html.DisplayFor(model => model.Mobile)</td>
+                                        
+                                    </tr>
+
+
+                                    <tr>
+                                        <th valign="top">Job Category:</th>
+                                        <td>
+                                            @Html.DisplayFor(model => model.db_Job_Cate.Name)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Addtional Duty:</th>
+                                        <td>
+                                            @Html.DisplayFor(model => model.db_Work_Category.Name)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Present Posting:</th>
+                                        <td>@Html.DisplayFor(model => model.db_Department1.Name)</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th valign="top"> Cell:</th>
+                                        <td>
+                                            @Html.DisplayFor(model => model.db_Cell.Name)
+                                       </td>
+                                     </tr>
+                                        <tr>
+                                        <th valign="top">Additional Cell:</th>
+                                        <td>@foreach (var item in Model.db_Emp_Cell)
+                                        {
+                                            @Html.Label(item.db_Cell.Name)  @Html.Label("")
+                                        }
+
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <th valign="top">Present Address:</th>
+                                        <td>@Html.DisplayFor(model => model.Present_Address)</td>
+                                        <td></td>
+                                    </tr>
+                                   
+                                    <tr>
+                                    <tr>
+                                        <th valign="top">Status:</th>
+                                        <td>
+                                          @if (Model.Status == true)
+                                          {
+                                            @Html.Label("Active")
+                                          }
+                                          else {
+                                          @Html.Label("Inactive")
+                                          }
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+                                   
+                                    <tr>
+                                        <th>@Html.ActionLink("Back to List", "Index")</th>
+                                    </tr>
+                                    
+
+                                </table>
+                                <!-- end id-form  -->
+
+                            </td>
+                            <td>
+
+                                <!--  start related-activities2222 -->
+
+                                <div id="imageshow">
+                                    
+                                    <img id="image" src="@Model.Imagetext" alt="" width="250" height="188" />
+
+                                </div>
+                               
+                                <!-- end related-activities -->
+
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <div class="clear"></div>
+
+
+                </div>
+                <!--  end content-table-inner  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+
+
+
+    <div class="clear">&nbsp;</div>
+
+</div>

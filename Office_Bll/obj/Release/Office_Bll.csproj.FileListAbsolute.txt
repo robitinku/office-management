@@ -1,0 +1,36 @@
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\bin\Release\Office_Bll.dll
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\bin\Release\Office_Bll.pdb
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\bin\Release\Office_Dll.dll
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\bin\Release\EntityFramework.dll
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\bin\Release\Office_Dll.pdb
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\bin\Release\EntityFramework.xml
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\obj\Release\Office_Bll.csprojResolveAssemblyReference.cache
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\obj\Release\Office_Bll.dll
+C:\Users\ROBITINKU\documents\visual studio 2015\Projects\Office_Management_System\Office_Bll\obj\Release\Office_Bll.pdb
+F:\Office_Management_System\Office_Bll\bin\Release\Office_Bll.dll
+F:\Office_Management_System\Office_Bll\bin\Release\Office_Bll.pdb
+F:\Office_Management_System\Office_Bll\bin\Release\Office_Dll.dll
+F:\Office_Management_System\Office_Bll\bin\Release\EntityFramework.dll
+F:\Office_Management_System\Office_Bll\bin\Release\Office_Dll.pdb
+F:\Office_Management_System\Office_Bll\bin\Release\EntityFramework.xml
+F:\Office_Management_System\Office_Bll\obj\Release\Office_Bll.csprojResolveAssemblyReference.cache
+F:\Office_Management_System\Office_Bll\obj\Release\Office_Bll.dll
+F:\Office_Management_System\Office_Bll\obj\Release\Office_Bll.pdb
+D:\Office_Management_System\Office_Bll\bin\Release\Office_Bll.dll
+D:\Office_Management_System\Office_Bll\bin\Release\Office_Bll.pdb
+D:\Office_Management_System\Office_Bll\bin\Release\Office_Dll.dll
+D:\Office_Management_System\Office_Bll\bin\Release\EntityFramework.dll
+D:\Office_Management_System\Office_Bll\bin\Release\Office_Dll.pdb
+D:\Office_Management_System\Office_Bll\bin\Release\EntityFramework.xml
+D:\Office_Management_System\Office_Bll\obj\Release\Office_Bll.csprojResolveAssemblyReference.cache
+D:\Office_Management_System\Office_Bll\obj\Release\Office_Bll.dll
+D:\Office_Management_System\Office_Bll\obj\Release\Office_Bll.pdb
+D:\updateop\Office_Management_System\Office_Bll\bin\Release\Office_Bll.dll
+D:\updateop\Office_Management_System\Office_Bll\bin\Release\Office_Bll.pdb
+D:\updateop\Office_Management_System\Office_Bll\bin\Release\Office_Dll.dll
+D:\updateop\Office_Management_System\Office_Bll\bin\Release\EntityFramework.dll
+D:\updateop\Office_Management_System\Office_Bll\bin\Release\Office_Dll.pdb
+D:\updateop\Office_Management_System\Office_Bll\bin\Release\EntityFramework.xml
+D:\updateop\Office_Management_System\Office_Bll\obj\Release\Office_Bll.csprojResolveAssemblyReference.cache
+D:\updateop\Office_Management_System\Office_Bll\obj\Release\Office_Bll.dll
+D:\updateop\Office_Management_System\Office_Bll\obj\Release\Office_Bll.pdb

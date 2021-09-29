@@ -1,0 +1,406 @@
+﻿@using PagedList.Mvc;
+@using Office_Dll;
+@model PagedList.IPagedList<db_Work_Category>
+
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<script src="~/js/jquery/avro-v1.js" charset="utf-8"></script>
+
+
+
+<script>
+
+    function numbervalid(event) {
+
+        if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+            // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) ||
+            // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+            // let it happen, don't do anything
+            return;
+        }
+        else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                event.preventDefault();
+            }
+        }
+    }
+$(document).ready(function () {
+    $(".spninerwidth").spinner({ max: 23, min: 0 }).val(0);
+    $(".spninerwidthm").spinner({ max: 59, min: 0, step: 5}).val(0);
+
+    $("table").on("keydown", "tr td .Entertainment,.Travel", function (event) {
+        numbervalid(event);
+
+    });
+
+    $("#save").click(function () {
+
+       // alert($('#work_type').val());
+
+    if( $('#Name').val().trim()=='')
+    {
+
+        $('#message').html("Name require");
+
+    }
+    else if ($('#Entertainment').val().trim() == '') {
+
+        $('#message').html("Entertainment Value require");
+
+    }
+
+    else if ($('#Travel').val().trim() == '') {
+
+        $('#message').html("Travel Value require");
+
+    }
+    else {
+
+        if ($("#Work_Id").val() == "") {
+
+            Start_Time = $("#starth").val() + ":" + $("#startm").val();
+            End_Time = $("#endh").val() + ":" + $("#endm").val();
+            var params = {
+                Name: $("#Name").val().trim(),
+                Status: $("input[name='Status']:checked").val(),
+             
+                Entertainment: $("#Entertainment").val(),
+                Travel: $("#Travel").val(),
+                Detail: $("#Detail").val(),
+                work_type: $("#work_type").val(),
+                Cell_ID: $("#Cell_ID").val(),
+                Start_Time: Start_Time,
+                End_Time: End_Time
+            };
+
+            var fun = '@Url.Action("AddData")'; 
+            $.fn.ajaxfuncall(params, fun);
+
+
+        }
+
+        else {
+
+            Start_Time = $("#starth").val() + ":" + $("#startm").val();
+            End_Time = $("#endh").val() + ":" + $("#endm").val();
+            var params = {
+                Work_Id: $("#Work_Id").val().trim(),
+                Name: $("#Name").val(),
+                Status: $("input[name='Status']:checked").val(),
+              
+                Entertainment: $("#Entertainment").val(),
+                Travel: $("#Travel").val(),
+                Detail: $("#Detail").val(),
+                work_type: $("#work_type").val(),
+                Cell_ID: $("#Cell_ID").val(),
+                Start_Time: Start_Time,
+                End_Time: End_Time
+            };
+
+            var fun = '@Url.Action("EditData")';
+            $.fn.ajaxfuncall(params, fun);
+
+
+        }
+
+    }
+
+});
+
+$.fn.ajaxfuncall = function (params, fun) {
+
+
+    $.ajax({
+        url: fun,
+        data: JSON.stringify({ data: params }),
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        success: function (message) {
+            if (message == false) {
+                $('#message').html("Name Already Exist");
+
+            }
+            else {
+                $("#Work_Id").val("");
+                $("#Name").val("");
+                $("#Entertainment").val(""),
+                $("#Travel").val(""),
+                $("#Detail").val(""),
+                $(".spninerwidth").spinner({ max: 23, min: 0 }).val(0);
+                $(".spninerwidthm").spinner({ max: 59, min: 0, step: 5 }).val(0);
+                $("#Active").prop("checked", true)
+                $('#message').html("Save Successfully");
+                location.reload();
+            }
+           
+
+        }
+    });
+
+
+
+}
+
+$("#product-table  tr td:nth-child(7)").click(function () {
+
+    $.ajax({
+        url: '@Url.Action("Edit")',
+
+        data: JSON.stringify({ Work_Id: $(this).find("#Work_Id_n").val() }),
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        success: function (_db_Work_Category) {
+
+           $("#Work_Id").val(_db_Work_Category.Work_Id);
+           $("#starth").val( _db_Work_Category.Start_Time.Hours);
+           $("#startm").val(_db_Work_Category.Start_Time.Minutes);
+           $("#endh").val(_db_Work_Category.End_Time.Hours);
+           $("#endm").val(_db_Work_Category.End_Time.Minutes);
+           $("#Name").val(_db_Work_Category.Name);
+           $("#Entertainment").val(_db_Work_Category.Entertainment);
+           $("#Travel").val(_db_Work_Category.Travel);
+           $("#Detail").val(_db_Work_Category.Detail);
+           $("#work_type").val(_db_Work_Category.work_type);
+           $("#Cell_ID").val(_db_Work_Category.Cell_ID);
+
+           if (_db_Work_Category.Status == true)
+               $("#Active").prop("checked", true)
+           else
+               $("#Inactive").prop("checked", true)
+
+
+
+        }
+    });
+
+
+});
+
+
+    });
+</script>
+
+
+
+
+
+<!-- start content -->
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>Work Schedule Management</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <th>
+
+                <div id="content-table-inner" style="width:600px;float:left;overflow-x:scroll;">
+
+
+                    <div id="table-content">
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+                             
+                                <th class="table-header-repeat line-left minwidth-1"><a href=""> Name</a>	</th>
+                                <th class="table-header-repeat line-left "><a href="">Start Time</a></th>
+                                <th class="table-header-repeat line-left "><a href="">End Time</a></th>
+                                <th class="table-header-repeat line-left " ><a href="">Entertainment</a></th>
+                                <th class="table-header-repeat line-left " ><a href="">Travel</a></th>
+
+                                <th class="table-header-repeat line-left"><a href="">Status</a></th>
+                                <th class="table-header-repeat line-left" style="width:200px;"><a href="">Options</a></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                 
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Start_Time)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.End_Time)</td>
+                                    <td >@Html.DisplayFor(modelItem => item.Entertainment)</td>
+                                    <td >@Html.DisplayFor(modelItem => item.Travel)</td>
+                                    <td>
+                                        @if (item.Status == true)
+                                        {
+                                            @Html.Label("Active")
+                                        }
+                                        else {
+                                            @Html.Label("Inactive")
+                                        }
+                                    </td>
+                                    <td >
+                                        @Html.Hidden("Work_Id_n", item.Work_Id)
+                                        <input type="button" class="butts" title="Edit" />
+                                      @Html.ActionLink(" ", "WorkText", new { controller = "Work", id =item.Work_Id }, new { @class = "icon-3 info-tooltip", title = "AddText" }) 
+
+
+
+
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                        <!--  end product-table................................... -->
+
+                    </div>
+
+                    <table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+                        <tr>
+                            <td>
+
+
+                                @Html.PagedListPager(Model, page => Url.Action("Index",
+                                     new { page }))
+
+
+                            </td>
+
+                        </tr>
+                    </table>
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div style="margin-left:600px;margin-top:10px;">
+                    <div class="alert alert-success">
+
+                        <span id="message">&nbsp</span>
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                            
+                       
+                    <table border="0" cellpadding="0" cellspacing="0" id="id-form" style="margin-top:5px;">
+
+                        <tr>
+                            <th valign="top">Name:</th>
+                            <td><input type="text" class="inp-form" id="Name" /><input type="hidden" class="inp-form" id="Work_Id" /></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Cell:</th>
+                            <td>
+                                @Html.DropDownList("Cell_ID", (SelectList)ViewBag._listCell, new { @class = "styledselect_form_1" })
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Work Type:</th>
+                            <td>
+                                <select class="inp-form" id="work_type" name="work_type">
+                                    <option value="1">Holiday</option>
+                                    <option value="2">Late Sitting</option>
+                                    <option value="3">Night</option>
+                                    <option value="4">TOUR</option>
+                                </select> 
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Start Time:</th>
+                            <td><input type="text" class="spninerwidth" id="starth" value="" readonly="readonly" />:
+                                <input type="text" class="spninerwidthm" id="startm" value="" readonly="readonly" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">End Time:</th>
+                            <td>
+                                <input type="text" class="spninerwidth" id="endh" value="" readonly="readonly" />:
+                                <input type="text" class="spninerwidthm" id="endm" value="" readonly="readonly" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Entertainment:</th>
+                            <td><input type="text" class="Entertainment" id="Entertainment" value=""  />
+                               
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Travel:</th>
+                            <td>
+                                <input type="text" class="Travel" id="Travel" value="" />
+
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th valign="top">Detail:</th>
+                            <td>
+                                <textarea rows="10" cols="60" class="" id="Detail"></textarea>
+
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                       
+                            <th valign="top">Status:</th>
+                            <td>
+                                @Html.RadioButton("Status",true,new {id= "Active",  Checked = "checked"})
+                                 @Html.Label("Active")
+
+                               @Html.RadioButton("Status", false, new { id = "Inactive" })
+                               @Html.Label("Inactive")
+                        </td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+
+                                <input type="button" value="Save" class="form-submit" id="save" />
+                                <input type="reset" value="" class="form-reset" />
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <!-- end id-form  -->
+                </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+		$(function(){
+		    $('textarea').avro({ 'bn': true }, function (isBangla) {
+				if(isBangla) {
+					$('.mode').text('English');
+				} else {
+					$('.mode').text('Bangla');
+				}
+			});
+		});
+</script>

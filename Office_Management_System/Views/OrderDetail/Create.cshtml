@@ -1,0 +1,363 @@
+﻿
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<script src="~/js/jquery/avro-v1.js" charset="utf-8"></script>
+
+<script src="~/Scripts/multidatespicker.js"></script>
+<link href="~/Content/multidatespicker.css" rel="stylesheet" />
+
+
+<script>
+
+
+    $(document).ready(function () {
+       
+
+        //Disable cut copy paste
+        //$('[name=empname]').bind('cut copy paste', function (e) {
+        
+        $('table').delegate('[name=empname]','cut copy paste', function (e) {
+            e.preventDefault();
+        });
+
+        //Disable mouse right click
+        $('table').delegate('[name=empname]', "contextmenu", function (e) {
+            return false;
+        });
+
+        $("#save").on('click', function (e) {
+            var savedata = [];
+            $("#product-table tr").each(function (i) {
+
+                if ($(this).find("input:hidden[name='empid']").val() != "0" && $(this).find("input:hidden[name='empid']").val() != null) {
+                  
+
+                    var params = {
+                        Refno: $("#Refno").val(),
+                        Date: $("#Order_Date").val(),
+                       // Detail: $("#Detail").val(),
+                        Emp_Id: $(this).find("input:hidden[name='empid']").val(),
+                        Cell_Id: $(this).find("#Cell_Id option:selected").val(),
+                        Work_Id: $("#Work_Id option:selected").val(),
+                        From_Dateall: $(this).find(".From_Date").val(),
+                        Details: $(this).find("#Details").val()
+
+                      
+
+                    };
+                    savedata.push(params);
+
+                }
+
+            });
+
+
+
+            $.ajax({
+                url: '@Url.Action("Save")',
+                data: JSON.stringify({ data: savedata }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    alert(result);
+                    if (result == "Save Successfully")
+                        location.reload();
+                }
+            });
+
+        });
+
+    var container ="<tr>" + $('.allInfo').html() +"</tr>"; // container to add
+    //id numbers for add. datepickers
+    var ids = 1;
+    $("#product-table tbody").on("change", "tr td:nth-child(1)", function () {
+
+            var empid = $(this).closest("tr").find("input[name='empid']").val();
+            var Employeeinfo;
+            $.ajax({
+                url: '@Url.Action("EmpInfoId")',
+                data: JSON.stringify({ empid: empid }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    Employeeinfo = result;
+
+                }
+            });
+
+        $('.Details').avro({ 'bn': true }, function (isBangla) {
+            if (isBangla) {
+                $('.mode').text('English');
+            } else {
+                $('.mode').text('Bangla');
+            }
+        });
+
+            //$(this).closest("tr").find("input[name='Bank_Id']").val(Employeeinfo.Bank_Id);
+            //$(this).closest("tr").find("input[name='Designation']").val(Employeeinfo.Designation);
+            // alert(Employeeinfo);
+
+
+        });
+    $("#product-table").on("keydown", "tr td:nth-child(1)", function (evt) {
+        var data = [];
+
+            $.ajax({
+                url: '@Url.Action("EmpInfoDetail")',
+                data: JSON.stringify({ imagename: "" }),
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                success: function (result) {
+
+                    data = result;
+
+                }
+            });
+
+            $(this).find("input[name='empname']").autocomplete({
+                minLength: 2,
+                source: data._list_Emp_list,
+
+                focus: function (event, ui) {
+                    $(this).val(ui.item.value);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.value);
+                    $(this).closest("tr").find("input[name='empid']").val(ui.item.id);
+
+                    return false;
+                }
+            });
+
+
+        if ($(this).closest('tr').next('tr').is('tr') == false) {
+            $('#product-table tbody').append(container); // add container
+            $('.From_Date:last').attr('id', ids);// each datepicker must have a unique id.
+            ids++;
+          
+            i = 1;
+            $.fn.pagedata(i);
+           
+        }
+
+    });
+
+
+        $("#product-table tbody").on("blur", "tr td:nth-child(1)", function () {
+
+        var empid = $(this).closest("tr").find("input[name='empid']").val();
+
+        if (empid!=""){
+        var Employeeinfo;
+        $.ajax({
+            url: '@Url.Action("EmpInfoId")',
+            data: JSON.stringify({ empid: empid }),
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            contentType: 'application/json',
+            success: function (result) {
+
+                Employeeinfo = result;
+
+            }
+        });
+
+
+
+        $(this).closest("tr").find("input[name='Bank_Id']").val(Employeeinfo.Bank_Id);
+        $(this).closest("tr").find("input[name='Designation']").val(Employeeinfo.Designation);
+        // alert(Employeeinfo);
+        }
+
+    });
+
+      
+
+
+      
+
+
+});
+
+    $(document).ready(function () {
+
+        $("#Order_Date").datepicker({
+
+            dateFormat: "yy-mm-dd",
+            changeYear: true,
+            changeMonth: true,
+            numberOfMonths: 1
+
+        });
+
+        $("#Order_Date").datepicker().datepicker("setDate", new Date());
+
+
+        $.fn.pagedata = function (i) {
+
+            $(".From_Date").multiDatesPicker({
+                
+                dateFormat: 'yy-mm-dd'
+                
+               
+            });
+
+           
+           
+
+           // $(".To_Date").datepicker().datepicker("setDate", new Date());
+            //$(".From_Date").datepicker().datepicker("setDate", new Date());
+
+        }
+        $.fn.pagedata();
+    });
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+		$(function(){
+		    $('#Refno').avro({ 'bn': true }, function (isBangla) {
+				if(isBangla) {
+					$('.mode').text('English');
+				} else {
+					$('.mode').text('Bangla');
+				}
+		    });
+		    $('.Details').avro({ 'bn': true }, function (isBangla) {
+		        if (isBangla) {
+		            $('.mode').text('English');
+		        } else {
+		            $('.mode').text('Bangla');
+		        }
+		    });
+		});
+</script>
+
+
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>Order Management</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"><img src="../images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="../images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner ...................................................................... START -->
+                <div id="content-table-inner">
+
+                    <!--  start table-content  -->
+                    <div id="table-content">
+
+
+
+
+                        <!--  start message-green -->
+                        <div id="message-green">
+                            
+                            <p>Date:<input type="text" id="Order_Date" readonly="readonly" /></p>
+                            <p><br /></p>
+                            <p>Ref:&nbsp; @Html.TextBox("Refno", (string)ViewBag.refno, new { style = "width: 300px;font-family:SolaimanLipi;" })</p>
+                            <p><br /></p>
+                            <p><br /></p>
+                            <p>Work Schedule:&nbsp; @Html.DropDownList("Work_Id", (SelectList)ViewBag._list_work_category, new { @class = "styledselect_form_1", style = "width: 250px" })</p>
+                            <p><br /></p>
+
+
+                        </div>
+                        <!--  end message-green -->
+                        <!--  start product-table ..................................................................................... -->
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+
+                                <th class="table-header-repeat line-left"><a href=""> Name</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Designation</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Bank Id</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Cell</a></th>
+                                
+                                <th class="table-header-repeat line-left"><a href=""> Date</a></th>
+                                
+                                <th class="table-header-repeat line-left"><a href="">Details</a></th>
+                                
+
+                            </tr>
+                            <tr class="allInfo">
+
+                                <td>
+                                    <input type="text" class="inp-form-new" value="" id="empname" name="empname" style="width:150px;" />
+                                    <input type="text" class="inp-form-new" value="0" id="empid" name="empid" style="display:none;" />
+                                </td>
+                                <td>
+                                    <input type="text" class="inp-form-new" value="" readonly="readonly" id="Designation" name="Designation" style="width:80px;" />
+                                </td>
+                                <td>
+                                    <input type="text" class="inp-form-new" value="" readonly="readonly" id="Bank_Id" name="Bank_Id" style="width:40px;" />
+                                </td>
+                                <td>
+                                    @Html.DropDownList("Cell_Id", (SelectList)ViewBag._listCell, new { @class = "styledselect_form_1", style = "width: 80px" })
+                                </td>
+                               
+                                <td>
+                                    @Html.TextBox("From_Date","" ,new {Class = "From_Date", @readonly=true, style = "width:250px;" })
+                                  
+                                </td>
+                                
+                                <td>
+                                    <input type="text" class="Details" value="" id="Details" maxlength="50" name="Details" style="width:150px;font-family:SolaimanLipi;" />
+                                   
+
+                                </td>
+                                
+
+                            </tr>
+
+
+                        </table>
+                        <!--  end product-table................................... -->
+                        <input type="button" value="Save" class="form-submit" id="save" />
+                    </div>
+
+
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+                <!--  end content-table-inner ............................................END  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+
+
+    <!--  end content -->
+
+</div>
+

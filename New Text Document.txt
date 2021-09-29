@@ -1,0 +1,6 @@
+https://www.codeproject.com/Questions/1018788/crystal-report-split-long-string-into-small-sting
+https://www.google.com/search?client=firefox-b-d&ei=wEXFXKbHK7jhz7sPiZe0-AM&q=%26nbsp&oq=%26NPSB&gs_l=psy-ab.1.0.0i19l10.445675.448455..450931...0.0..0.2031.6298.2-1j7-2j1j1......0....1..gws-wiz.......0i324j0.U7Kc5tMuEJg
+https://help.sap.com/viewer/0d6684e153174710b8b2eb114bb7f843/SP21/en-US/45b551e56e041014910aba7db0e91070.html
+https://blogs.sap.com/2013/03/01/counting-the-number-of-lines-in-a-text-field/
+about:reader?url=https%3A%2F%2Fwww.codeproject.com%2FQuestions%2F1018788%2Fcrystal-report-split-long-string-into-small-sting
+http://jsfiddle.net/gydL0epa/

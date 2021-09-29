@@ -1,0 +1,102 @@
+﻿@using Office_Dll;
+@model db_User
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Office Management System</title>
+    <link href="~/Content/screen.css" rel="stylesheet" />
+
+    <script src="~/js/jquery/jquery-1.4.1.min.js"></script>
+    <script type="text/javascript">
+        function validateForm() {
+
+         
+
+        if ($('#User_Name').val().trim() == '') {
+            $('#message').html("User Name require");
+                return false;
+            }
+
+        else if ($('#Password').val().trim() == '') {
+            $('#message').html("Password require");
+                return false;
+            }
+            
+          
+
+            else
+                return true;
+        }
+
+    </script>
+</head>
+@{
+    Layout = "";
+}
+
+<body id="login-bg">
+
+    <!-- Start: login-holder -->
+    <div id="login-holder">
+
+        <!-- start logo -->
+        <div id="logo-login" style="color:blue;">
+            Office Management System
+        </div>
+        <!-- end logo -->
+
+        <div class="clear"></div>
+
+        <!--  start loginbox ................................................................................. -->
+        <div id="loginbox">
+            <div class="alert alert-success">
+
+                <span id="message" style="padding-left:190px;color:red;">@ViewBag.message</span>
+               
+            </div>
+            <br />
+            <!--  start login-inner -->
+            <div id="login-inner">
+                @using (Html.BeginForm("LogInCheck", "Login", FormMethod.Post, new { @class = "form-horizontal", role = "form" , onsubmit = "return  validateForm()" }))
+                {
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th>Username</th>
+                        <td>@Html.TextBoxFor(m => m.User_Name, new { @class = "form-control" ,@Value=""})
+                            @* @Html.TextBoxFor(m => m.User_Name, new { @class = "form-control"})*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Password</th>
+                        <td>@Html.PasswordFor(m => m.Password, new { @class = "form-control", @Value = "" })
+                          @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })*@
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td><input type="submit" class="submit-login" /></td>
+                    </tr>
+                </table>
+                }
+            </div>
+            
+            <p style="padding-top:5px; padding-left:100px;">
+                <a href="@Url.Content("~/Office_Management.pdf")">Office Management System Functional document version 1.0</a>
+            
+         
+            <!--  end login-inner -->
+            <div class="clear"></div>
+
+        </div>
+        <!--  end loginbox -->
+        <!--  start forgotbox ................................................................................... -->
+
+
+    </div>
+
+    <!-- End: login-holder -->
+</body>
+</html>

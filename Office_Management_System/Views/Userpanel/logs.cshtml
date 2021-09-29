@@ -1,0 +1,97 @@
+﻿@using PagedList.Mvc;
+@using Office_Dll;
+@model PagedList.IPagedList<db_Log>
+@Scripts.Render("~/bundles/bootstrap")
+<!-- start content -->
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>User Info update log</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+
+                <div id="content-table-inner" style="width:600px;float:left;">
+
+
+                    <div id="table-content">
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">User Name</a>	</th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Password</a>	</th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Category</a></th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Status</a></th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Date</a></th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Modifier</a></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                     <td>@Html.DisplayFor(modelItem => item.User_Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                                    <td>
+                                        @if (item.Status == true)
+                                        {
+                                            @Html.Label("Active")
+                                        }
+                                        else {
+                                            @Html.Label("Inactive")
+                                        }
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.created)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.db_User.User_Name)</td>
+                                </tr>
+                            }
+                        </table>
+                        <!--  end product-table................................... -->
+
+                    </div>
+
+                    <table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+                        <tr>
+                            <td>
+
+
+                                @Html.PagedListPager(Model, page => Url.Action("logs",
+                                     new { page }))
+
+
+                            </td>
+
+                        </tr>
+                    </table>
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+
+               
+                </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+</div>
+

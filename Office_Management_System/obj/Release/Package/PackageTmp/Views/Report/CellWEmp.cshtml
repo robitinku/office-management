@@ -1,0 +1,173 @@
+﻿
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $("#show").on('click', function (e) {
+            if ($("#Cell_Id").val() != "0") {
+                var params = { Cell_Id: $("#Cell_Id").val() };
+                var tr = "";
+                $.ajax({
+                    url: '@Url.Action("CellWEmpList")',
+                    data: JSON.stringify({ _db_Employee: params }),
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    contentType: 'application/json',
+                    success: function (result) {
+
+                        tr = result;
+
+                    }
+                });
+
+                $('#product-table .child').html("");
+                $('#product-table .child').append(tr);
+            }
+
+            else {
+
+                alert("Employee Name Require")
+            }
+
+        });
+
+
+
+
+        $("#From_Date").datepicker(
+
+              {
+                  maxDate: '0',
+                  beforeShow: function () {
+                      jQuery(this).datepicker('option', 'maxDate', jQuery('#To_Date').val());
+                  },
+                  altFormat: "yy-mm-dd",
+                  dateFormat: "yy-mm-dd"
+
+              }
+
+      );
+
+        $("#To_Date").datepicker(
+
+                {
+                    maxDate: '0',
+                    beforeShow: function () {
+                        jQuery(this).datepicker('option', 'minDate', jQuery('#From_Date').val());
+                    },
+                    altFormat: "yy-mm-dd",
+                    dateFormat: "yy-mm-dd"
+
+                }
+
+        );
+
+
+
+    });
+    function valid() {
+
+
+        if ($('#Cell_Id').val().trim() == '') {
+            alert("Employee Name Require")
+            return false;
+        }
+        else
+            return true;
+
+    }
+</script>
+
+
+<div id="content">
+
+    <!--  start page-heading -->
+    <div id="page-heading">
+        <h1>List of Employee Cell wise</h1>
+    </div>
+    <!-- end page-heading -->
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner ...................................................................... START -->
+                <div id="content-table-inner">
+
+                    <!--  start table-content  -->
+                    <div id="table-content">
+
+
+
+
+                        <!--  start message-green -->
+                        <div id="message-green">
+                            @using (Html.BeginForm("CellWEmp", "Report", FormMethod.Post, new { target = "_blank", onsubmit = "return valid()" }))
+{
+                                <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            @Html.DropDownList("Cell_Id", (SelectList)ViewBag._listCell, new { @class = "styledselect_form_1left" })
+
+                                        </td>
+                                    
+                                        <td style="padding:15px 0 0 300px;">
+                                            <input type="button" value="Show" class="form-submit" id="show" />
+                                        </td>
+                                    </tr>
+                                </table>
+}
+                        </div>
+                        <!--  end message-green -->
+                        <!--  start product-table ..................................................................................... -->
+
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+                            <tr>
+                                <th class="table-header-check" style="color:white">Sl No</th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href=""> Name</a>	</th>
+                                <th class="table-header-repeat line-left minwidth-1"><a href="">Designation</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Email</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Mobile</a></th>
+                                <th class="table-header-repeat line-left"><a href="">Status</a></th>
+
+
+                            </tr>
+                            <tbody class="child"></tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!--  end paging................ -->
+
+                    <div class="clear"></div>
+
+                </div>
+                <!--  end content-table-inner ............................................END  -->
+            </td>
+            <td id="tbl-border-right"></td>
+        </tr>
+        <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+        </tr>
+    </table>
+
+
+    <!--  end content -->
+
+</div>

@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Office_ManagementModelStoreContainer" CdmEntityContainer="Office_ManagementEntities">
+    <EntitySetMapping Name="db_benifit">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_benifit)">
+        <MappingFragment StoreEntitySet="db_benifit">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="comments" ColumnName="comments" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_calendar">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_calendar)">
+        <MappingFragment StoreEntitySet="db_calendar">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HoliDay_Date" ColumnName="HoliDay_Date" />
+          <ScalarProperty Name="Discription" ColumnName="Discription" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Cell">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Cell)">
+        <MappingFragment StoreEntitySet="db_Cell">
+          <ScalarProperty Name="Cell_Id" ColumnName="Cell_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Dep_id" ColumnName="Dep_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Department">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Department)">
+        <MappingFragment StoreEntitySet="db_Department">
+          <ScalarProperty Name="Dep_id" ColumnName="Dep_id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Designation">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Designation)">
+        <MappingFragment StoreEntitySet="db_Designation">
+          <ScalarProperty Name="Designation_Id" ColumnName="Designation_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Bn_Name" ColumnName="Bn_Name" />
+          <ScalarProperty Name="Serial" ColumnName="Serial" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Emp_Cell">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Emp_Cell)">
+        <MappingFragment StoreEntitySet="db_Emp_Cell">
+          <ScalarProperty Name="Emp_Cell" ColumnName="Emp_Cell" />
+          <ScalarProperty Name="Cell_Id" ColumnName="Cell_Id" />
+          <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Employee">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Employee)">
+        <MappingFragment StoreEntitySet="db_Employee">
+          <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+          <ScalarProperty Name="Emp_Name" ColumnName="Emp_Name" />
+          <ScalarProperty Name="Bank_Id" ColumnName="Bank_Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Present_Posting" ColumnName="Present_Posting" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Present_Address" ColumnName="Present_Address" />
+          <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Work_Id" ColumnName="Work_Id" />
+          <ScalarProperty Name="Cell_Id" ColumnName="Cell_Id" />
+          <ScalarProperty Name="Designation_Id" ColumnName="Designation_Id" />
+          <ScalarProperty Name="Bn_Emp_Name" ColumnName="Bn_Emp_Name" />
+          <ScalarProperty Name="promotion_Date" ColumnName="promotion_Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_image">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_image)">
+        <MappingFragment StoreEntitySet="db_image">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Job_Cate">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Job_Cate)">
+        <MappingFragment StoreEntitySet="db_Job_Cate">
+          <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Log">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Log)">
+        <MappingFragment StoreEntitySet="db_Log">
+          <ScalarProperty Name="Log_Id" ColumnName="Log_Id" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="created" ColumnName="created" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Order">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Order)">
+        <MappingFragment StoreEntitySet="db_Order">
+          <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+          <ScalarProperty Name="Order_No" ColumnName="Order_No" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="Refno" ColumnName="Refno" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="EnDate" ColumnName="EnDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Order_Detail">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Order_Detail)">
+        <MappingFragment StoreEntitySet="db_Order_Detail">
+          <ScalarProperty Name="Order_Detail_Id" ColumnName="Order_Detail_Id" />
+          <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+          <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+          <ScalarProperty Name="Cell_Id" ColumnName="Cell_Id" />
+          <ScalarProperty Name="Work_Id" ColumnName="Work_Id" />
+          <ScalarProperty Name="From_Date" ColumnName="From_Date" />
+          <ScalarProperty Name="To_Date" ColumnName="To_Date" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Start_time" ColumnName="Start_time" />
+          <ScalarProperty Name="End_time" ColumnName="End_time" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="Refno" ColumnName="Refno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_User">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_User)">
+        <MappingFragment StoreEntitySet="db_User">
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_Work_Category">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_Work_Category)">
+        <MappingFragment StoreEntitySet="db_Work_Category">
+          <ScalarProperty Name="Work_Id" ColumnName="Work_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+          <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+          <ScalarProperty Name="Entertainment" ColumnName="Entertainment" />
+          <ScalarProperty Name="Travel" ColumnName="Travel" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="work_type" ColumnName="work_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="db_work_text">
+      <EntityTypeMapping TypeName="IsTypeOf(Office_ManagementModel.db_work_text)">
+        <MappingFragment StoreEntitySet="db_work_text">
+          <ScalarProperty Name="WorkTextId" ColumnName="WorkTextId" />
+          <ScalarProperty Name="Work_Id" ColumnName="Work_Id" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="DetailHeader" ColumnName="DetailHeader" />
+          <ScalarProperty Name="DetailFottor" ColumnName="DetailFottor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

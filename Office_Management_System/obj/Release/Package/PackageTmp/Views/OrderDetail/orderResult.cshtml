@@ -1,0 +1,81 @@
+﻿@using Office_Dll;
+@model List<orderinfo>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+    textarea ,input{
+        font-size: 20px !important;
+    }
+</style>
+<div id="content">
+  <div id="page-heading"><h1>Order Information</h1>
+    <br>
+    <b>
+    Maker: @ViewBag.creator
+    <br>
+    Designation: @ViewBag.designation
+        </b>
+    </div>
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+        <tr>
+            <th rowspan="3" class="sized"></th>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+            <th rowspan="3" class="sized"></th>
+        </tr>
+        <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+                <!--  start content-table-inner -->
+                <div id="content-table-inner">
+@using (Html.BeginForm("BillReport", "OrderDetail", FormMethod.Post, new { target = "_blank", Name = "ReportSub" }))
+{                  
+                    <table  id="product-table" width="100%" border="0" cellpadding="0" cellspacing="0" name="list">
+                        <tr>
+                            <th class="table-header-repeat line-left"><a href="">No </a></th>
+                            <th class="table-header-repeat line-left minwidth-1"><a href="">Name & Designation  </a>	</th>
+                            <th class="table-header-repeat line-left minwidth-1"><a href="">From Date</a></th>
+                            <th class="table-header-repeat line-left"><a href="">To Date</a></th>
+                            <th class="table-header-repeat line-left"><a href="">Work Name</a></th>
+                        </tr>
+                        @{int i = 0; }
+                        @foreach (var item in Model)
+                        { 
+                            <tr>
+                                <td>
+                                    @if (item.EmpId != 0)
+                                    {
+                                        @(++i)
+
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Empname)
+                                   
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Designation)
+                                </td>
+                                <td style="max-width:175px; word-wrap:break-word;">@item.From_Date.ToString("dd-MM-yyyy")</td>
+                                <td>@item.To_Date.ToString("dd-MM-yyyy")</td>
+                                <td>@Html.DisplayFor(modelItem => item.Workname)</td>
+                            </tr>
+                        }
+
+                    </table>
+                              }
+<div class="clear"></div>
+
+
+</div>
+<!--  end content-table-inner  -->
+            </td>
+<td id="tbl-border-right"></td>
+        </tr>
+<tr>
+    <th class="sized bottomleft"></th>
+    <td id="tbl-border-bottom">&nbsp;</td>
+    <th class="sized bottomright"></th>
+</tr>
+ </table>
+<div class="clear">&nbsp;</div>
+</div>
